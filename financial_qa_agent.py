@@ -476,11 +476,13 @@ class FinancialQAAgent:
         # 匹配模式:
         #   "正确答案：A"  "正确答案: ABC"  "正确答案是 B"
         #   "最终答案：CD" "答案：A"       "**答案：B**"
+        #   "Answer: A"   "answer: CD"    (英文响应兼容)
         s1_patterns = [
             r'正确答案[：:\s是]+\s*([A-D]+)',
             r'最终答案[：:\s是]+\s*([A-D]+)',
             r'(?:^|\n)\s*答案[：:\s是]+\s*([A-D]+)',
             r'\*\*答案[：:\s]*\*\*\s*([A-D]+)',
+            r'(?i)\banswer\s*[：:\s]+\s*([A-D]+)',
         ]
         for pattern in s1_patterns:
             match = re.search(pattern, response, re.IGNORECASE | re.MULTILINE)

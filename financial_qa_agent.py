@@ -1,4 +1,11 @@
 # financial_qa_agent.py
+"""
+金融长文本智能问答Agent
+整合文档检索、上下文构建、Qwen推理、答案提取与验证
+
+核心流程:
+  1. 检索证据 → 2. 构建上下文 → 3. 调用 Qwen → 4. 提取答案 → 5. 验证格式
+"""
 import os
 import re
 import json

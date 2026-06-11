@@ -105,17 +105,24 @@ class FinancialQAAgent:
         # 阶段3: P1-1 领域专用Prompt
         prompt = self._build_domain_prompt(question, options, context, domain)
 
+        # P3-3: 自适应Token预算
+        adaptive_max_tokens = config.adaptive_tokens(
+            answer_format, question, len(doc_ids)
+        )
+        log.debug(f"Token预算: {adaptive_max_tokens} (format={answer_format}, "
+                  f"q_len={len(question)}, docs={len(doc_ids)})")
+
         # P1-2: 多轮推理模式 vs 单轮模式
         if self.use_multi_step and self.reasoner:
-            # 多轮推理 (3次API调用, 更准确)
+            # 多轮推理 (3次API调用, Token预算按轮次分配)
             ms_result = self.reasoner.reason_with_verification(
                 question, options, evidences, answer_format
             )
             answer = ms_result['answer']
             log.debug(f"多轮置信度={ms_result['confidence']:.2f}")
         else:
-            # 单轮推理 (默认)
-            response = self._call_qwen(prompt, max_tokens=config.MAX_OUTPUT_TOKENS)
+            # 单轮推理 (使用自适应预算)
+            response = self._call_qwen(prompt, max_tokens=adaptive_max_tokens)
             answer = self._extract_answer_from_response(response, answer_format)
 
         # P1-3: 数值验算

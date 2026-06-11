@@ -10,6 +10,7 @@ from rank_bm25 import BM25Okapi
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import config as cfg
+from pdf_parser import FinancialPDFParser  # P3-1: 结构化解析
 
 
 class FinancialRetrievalSystem:
@@ -69,7 +70,225 @@ class FinancialRetrievalSystem:
         
         print(f"索引完成: {len(self.chunks)} 个块, {len(self.keyword_index)} 个关键词")
         return len(self.chunks)
-    
+
+    # ================================================================
+    # P3-1: 领域特定智能分块
+    # ================================================================
+    def index_documents_smart(self, docs_dir: str, doc_ids: List[str],
+                               domain: str = 'financial_contracts') -> int:
+        """
+        基于领域特性的智能分块索引。
+
+        策略:
+          法规(regulatory) → 按"第X条"分块，每条为独立法律单元
+          合同(financial_contracts) → 按"章/节"分块，保持契约结构
+          财报(financial_reports) → 按财务科目分块
+          保险(insurance) → 按条款编号分块
+          研报(research) → 按标题段落分块
+        """
+        print(f"智能索引 [{domain}]: {len(doc_ids)} 个文档...")
+
+        all_chunks = []
+        parser = FinancialPDFParser()
+
+        for doc_id in doc_ids:
+            pdf_path = os.path.join(docs_dir, f"{doc_id}.pdf")
+            if not os.path.exists(pdf_path):
+                # 尝试 txt
+                pdf_path = os.path.join(docs_dir, f"{doc_id}.txt")
+                if not os.path.exists(pdf_path):
+                    print(f"  警告: 未找到 {doc_id}")
+                    continue
+
+            print(f"  索引: {doc_id} [{domain}]")
+            text = self._extract_pdf_text(pdf_path)
+
+            # 按领域选择分块策略
+            if domain == 'regulatory':
+                chunks = self._chunk_by_article(text, doc_id)
+            elif domain == 'financial_contracts':
+                chunks = self._chunk_by_section(text, doc_id)
+            elif domain == 'financial_reports':
+                chunks = self._chunk_by_financial_subject(text, doc_id)
+            elif domain == 'insurance':
+                chunks = self._chunk_by_clause(text, doc_id)
+            else:  # research + 通用
+                # 尝试用 pdf_parser 结构化解析
+                try:
+                    parsed = parser.parse_pdf(pdf_path) if pdf_path.endswith('.pdf') else None
+                    if parsed and parsed.get('structure'):
+                        chunks = self._chunk_from_structure(parsed, doc_id)
+                    else:
+                        chunks = self._chunk_text(text, doc_id)
+                except Exception:
+                    chunks = self._chunk_text(text, doc_id)
+
+            # 索引每个块
+            for chunk in chunks:
+                chunk_id = f"{doc_id}_{len(all_chunks)}"
+                chunk['id'] = chunk_id
+                chunk['doc_id'] = doc_id
+                chunk['domain'] = domain
+                all_chunks.append(chunk)
+
+                for kw in chunk['keywords']:
+                    self.keyword_index[kw].append(chunk_id)
+                for entity_type, entity_value in chunk['entities']:
+                    self.entity_index[(entity_type, entity_value)].append(chunk_id)
+
+        self.chunks = all_chunks
+        self.tokenized_chunks = [self._tokenize(chunk['content']) for chunk in self.chunks]
+        if self.tokenized_chunks:
+            self.bm25_index = BM25Okapi(self.tokenized_chunks)
+
+        print(f"智能索引完成: {len(self.chunks)} 块, {len(self.keyword_index)} 关键词")
+        return len(self.chunks)
+
+    # ---- 领域分块策略 ----
+
+    def _chunk_by_article(self, text: str, doc_id: str) -> List[Dict]:
+        """法规: 按'第X条'分块，每条为一个完整法律单元。"""
+        chunks = []
+        # 匹配"第X条"开头的内容块
+        pattern = r'(第[一二三四五六七八九十百千\d]+条[^\n]*)'
+        parts = re.split(r'(?=第[一二三四五六七八九十百千\d]+条)', text)
+
+        for i, part in enumerate(parts):
+            part = part.strip()
+            if len(part) < 20:
+                continue
+            # 如果一块过长，按段落再切
+            if len(part) > 800:
+                sub_parts = part.split('\n')
+                current = ''
+                for sp in sub_parts:
+                    sp = sp.strip()
+                    if not sp:
+                        continue
+                    if len(current) + len(sp) > 600 and current:
+                        chunks.append(self._create_chunk(current, doc_id, len(chunks)))
+                        current = sp
+                    else:
+                        current += sp + '\n'
+                if current:
+                    chunks.append(self._create_chunk(current, doc_id, len(chunks)))
+            else:
+                chunks.append(self._create_chunk(part, doc_id, len(chunks)))
+        return chunks
+
+    def _chunk_by_section(self, text: str, doc_id: str) -> List[Dict]:
+        """金融合同: 按'章/节'分块，保持契约结构完整性。"""
+        chunks = []
+        # 匹配章节标题行: "第X章" 或 "第X节" 或数字标题 "一、..."
+        section_patterns = [
+            r'第[一二三四五六七八九十百千\d]+[章节]',
+            r'[一二三四五六七八九十]、',
+            r'\d+[\.、]\s*[^0-9]',
+        ]
+        combined = '|'.join(section_patterns)
+        parts = re.split(f'(?=({combined}))', text)
+
+        current_section = ''
+        for part in parts:
+            part = part.strip()
+            if not part or len(part) < 10:
+                continue
+
+            is_header = bool(re.match(combined, part))
+            if is_header and current_section:
+                chunks.append(self._create_chunk(current_section, doc_id, len(chunks)))
+                current_section = part
+            elif is_header:
+                current_section = part
+            else:
+                current_section += '\n' + part if current_section else part
+
+            # 块过长则切分
+            if len(current_section) > 1000:
+                chunks.append(self._create_chunk(current_section, doc_id, len(chunks)))
+                current_section = ''
+
+        if current_section and len(current_section) > 20:
+            chunks.append(self._create_chunk(current_section, doc_id, len(chunks)))
+        return chunks if chunks else self._chunk_text(text, doc_id)
+
+    def _chunk_by_financial_subject(self, text: str, doc_id: str) -> List[Dict]:
+        """财务报表: 按财务科目分块（营业收入/净利润/总资产/现金流...）。"""
+        chunks = []
+        subject_keywords = [
+            '营业收入', '营业成本', '净利润', '总资产', '总负债', '净资产',
+            '经营活动现金流', '投资活动现金流', '筹资活动现金流',
+            '资产负债率', '毛利率', '净利率', 'ROE', 'ROA', 'EPS',
+            '应收账款', '存货', '固定资产', '无形资产', '商誉',
+            '短期借款', '长期借款', '应付债券',
+            '合并报表', '母公司报表', '审计意见',
+        ]
+        # 构建标题行正则
+        subjects_re = '|'.join(subject_keywords)
+
+        # 按可能的科目标题分块
+        lines = text.split('\n')
+        current_chunk = ''
+        current_subject = ''
+
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+
+            # 检测是否为新科目
+            is_new_subject = any(kw in line for kw in subject_keywords[:5])
+            if is_new_subject and len(line) < 60:
+                if current_chunk and len(current_chunk) > 30:
+                    chunks.append(self._create_chunk(
+                        f"[{current_subject}]\n{current_chunk}" if current_subject else current_chunk,
+                        doc_id, len(chunks)))
+                current_subject = line
+                current_chunk = ''
+            else:
+                current_chunk += line + '\n'
+
+        if current_chunk and len(current_chunk) > 30:
+            chunks.append(self._create_chunk(
+                f"[{current_subject}]\n{current_chunk}" if current_subject else current_chunk,
+                doc_id, len(chunks)))
+        return chunks if chunks else self._chunk_text(text, doc_id)
+
+    def _chunk_by_clause(self, text: str, doc_id: str) -> List[Dict]:
+        """保险条款: 按条款编号分块。"""
+        chunks = []
+        # 保险条款格式: "第X条" 或 "X.X" 编号
+        pattern = r'(第[一二三四五六七八九十百千\d]+条|\d+\.\d+\s)'
+        parts = re.split(f'(?={pattern})', text)
+
+        for part in parts:
+            part = part.strip()
+            if len(part) < 20:
+                continue
+            if len(part) > 800:
+                # 按段落再切
+                for para in part.split('\n'):
+                    para = para.strip()
+                    if len(para) > 20:
+                        chunks.append(self._create_chunk(para, doc_id, len(chunks)))
+            else:
+                chunks.append(self._create_chunk(part, doc_id, len(chunks)))
+        return chunks
+
+    def _chunk_from_structure(self, parsed_doc: Dict, doc_id: str) -> List[Dict]:
+        """利用 pdf_parser 的结构化结果分块。"""
+        chunks = []
+        # 按章节结构分块
+        for item in parsed_doc.get('structure', []):
+            if 'articles' in item:  # 章节含条款
+                chapter_title = item.get('title', '')
+                for article in item['articles']:
+                    content = f"{chapter_title}\n{article}"
+                    chunks.append(self._create_chunk(content, doc_id, len(chunks)))
+            elif 'article' in item:
+                chunks.append(self._create_chunk(item['article'], doc_id, len(chunks)))
+        return chunks if chunks else self._chunk_text(parsed_doc.get('raw_text', ''), doc_id)
+
     def _extract_pdf_text(self, pdf_path: str) -> str:
         """提取PDF文本（解析阶段不计Token，全量读取）"""
         try:

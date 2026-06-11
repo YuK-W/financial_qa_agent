@@ -87,9 +87,65 @@ class Config:
     # ================================================================
     MAX_CONTEXT_CHARS = 5000          # 上下文最大字符数
     MAX_CONTEXT_TOKENS = 3000         # 上下文最大 token 数（估算）
-    MAX_OUTPUT_TOKENS = 800           # 模型输出最大 token 数
+    MAX_OUTPUT_TOKENS = 800           # 模型输出最大 token 数（默认值）
     MAX_PDF_PAGES = 0                 # 单文档最多读取页数（0=不限，解析阶段不计Token）
     TOKEN_ESTIMATE_RATIO = 1.8        # 中文混合文本：约 1.8 字符/token
+
+    # ================================================================
+    # P3-3: 自适应 Token 预算分配
+    # ================================================================
+    # 基础预算（按题型）
+    TOKEN_BUDGET_BASE = {
+        'tf': 2000,      # 判断题: 二选一，最简单
+        'mcq': 3500,     # 单选题: 四选一
+        'multi': 5000,   # 多选题: 需逐一判断
+    }
+
+    # 复杂度调整因子
+    TOKEN_BUDGET_QUESTION_LENGTH_FACTOR = 0.5   # 问题每100字符加50 token
+    TOKEN_BUDGET_DOC_COUNT_FACTOR = 300         # 每多一个文档加300 token
+    TOKEN_BUDGET_HAS_CALCULATION = 800          # 涉及计算额外加800 token
+    TOKEN_BUDGET_MIN = 1500                     # 最低预算
+    TOKEN_BUDGET_MAX = 6000                     # 最高预算上限
+
+    @classmethod
+    def adaptive_tokens(cls, answer_format: str, question: str = '',
+                         doc_count: int = 1) -> int:
+        """
+        P3-3: 根据题目难度自适应计算 Token 预算。
+
+        公式:
+          base(answer_format)
+          + len(question)/100 * QUESTION_LENGTH_FACTOR
+          + doc_count * DOC_COUNT_FACTOR
+          + HAS_CALCULATION (if 计算/比例/金额/增长率 in question)
+
+        Args:
+            answer_format: 'mcq' / 'tf' / 'multi'
+            question: 问题文本（用于长度和关键词检测）
+            doc_count: 涉及的文档数量
+
+        Returns:
+            自适应输出 token 预算（限制在 MIN~MAX 之间）
+        """
+        base = cls.TOKEN_BUDGET_BASE.get(answer_format, 3500)
+
+        # 问题长度加成
+        q_len = len(question) if question else 0
+        length_bonus = int(q_len / 100 * cls.TOKEN_BUDGET_QUESTION_LENGTH_FACTOR)
+
+        # 文档数量加成
+        doc_bonus = doc_count * cls.TOKEN_BUDGET_DOC_COUNT_FACTOR
+
+        # 计算类题目加成
+        calc_keywords = ['计算', '比例', '金额', '亿元', '万元', '%', '增长', '下降',
+                         '总额', '利率', '多少', '等于', '合计', '约为']
+        calc_bonus = cls.TOKEN_BUDGET_HAS_CALCULATION if any(
+            kw in (question or '') for kw in calc_keywords
+        ) else 0
+
+        total = base + length_bonus + doc_bonus + calc_bonus
+        return max(cls.TOKEN_BUDGET_MIN, min(cls.TOKEN_BUDGET_MAX, total))
 
     # ================================================================
     # 检索配置

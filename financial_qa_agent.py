@@ -28,13 +28,14 @@ class FinancialQAAgent:
 
         Args:
             api_key: API Key，不传则从 config 读取
-            retrieval_system: 可选，FinancialRetrievalSystem 实例
+            retrieval_system: 可选，FinancialRetrievalSystem 实例（传入后自动用于检索）
         """
         self.api_key = api_key or config.api_key
         dashscope.api_key = self.api_key
         self.retrieval_system = retrieval_system
         self.last_prompt_tokens = 0
         self.last_completion_tokens = 0
+        self._indexed_doc_ids = set()  # 已索引的文档ID集合，避免重复索引
 
     # ================================================================
     # 主流程
@@ -60,6 +61,9 @@ class FinancialQAAgent:
         doc_ids = question_data.get('doc_ids', [])
 
         print(f"处理问题: {qid}  [{config.DOMAIN_NAMES.get(domain, domain)}]")
+
+        # P0-3: 确保文档已索引（解析阶段不计Token）
+        self._ensure_documents_indexed(doc_ids)
 
         # 阶段1：检索证据（若有 preloaded_docs 则跳过 PDF 读取）
         evidences = self._retrieve_evidences(doc_ids, question, options,
@@ -91,6 +95,43 @@ class FinancialQAAgent:
     # ================================================================
     # 证据检索
     # ================================================================
+    def _ensure_documents_indexed(self, doc_ids: List[str]) -> None:
+        """
+        P0-3: 确保文档已索引到 retrieval_system（解析阶段不计Token）。
+        若未提供 retrieval_system 则自动创建 FinancialRetrievalSystem 实例。
+        """
+        if not doc_ids:
+            return
+
+        # 自动初始化检索系统（若未提供）
+        if self.retrieval_system is None:
+            from retrieval_system import FinancialRetrievalSystem
+            self.retrieval_system = FinancialRetrievalSystem()
+
+        # 按领域分组 doc_ids（同一领域共享一个索引目录）
+        domain_groups: Dict[str, List[str]] = {}
+        for doc_id in doc_ids:
+            if doc_id in self._indexed_doc_ids:
+                continue
+            # 找到该文档所属的领域
+            pdf_path = self._find_pdf_path(doc_id)
+            if not pdf_path:
+                continue
+            # 从路径中提取领域名: raw/{domain}/{doc_id}.pdf
+            for domain in config.DOMAINS:
+                if f"/{domain}/" in pdf_path.replace("\\", "/"):
+                    if domain not in domain_groups:
+                        domain_groups[domain] = []
+                    domain_groups[domain].append(doc_id)
+                    break
+
+        # 按领域索引
+        for domain, ids in domain_groups.items():
+            docs_dir = config.get_raw_path(domain)
+            print(f"  [索引] {domain}: {len(ids)} 个文档 ({', '.join(ids)})")
+            self.retrieval_system.index_documents(docs_dir, ids)
+            self._indexed_doc_ids.update(ids)
+
     def _retrieve_evidences(self, doc_ids: List[str], question: str,
                             options: Dict[str, str],
                             preloaded_docs: Dict[str, str] = None) -> List[Dict]:
@@ -135,14 +176,14 @@ class FinancialQAAgent:
         for doc_id in doc_ids:
             # Bug 6 修复: 优先使用预加载文档
             if doc_id in preloaded_docs:
-                print(f"  📦 使用缓存文档: {doc_id}")
+                print(f"  [Cache] {doc_id}")
                 text = preloaded_docs[doc_id]
             else:
                 pdf_path = self._find_pdf_path(doc_id)
                 if not pdf_path:
                     print(f"  未找到文档: {doc_id}")
                     continue
-                print(f"  📄 读取文档: {doc_id}")
+                print(f"  [Read] {doc_id}")
                 text = self._read_pdf(pdf_path)
 
             if not text:
@@ -222,18 +263,20 @@ class FinancialQAAgent:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     return f.read()
 
-            # PDF 文件
+            # PDF 文件（解析阶段不计Token，全量读取）
             import pdfplumber
             text = ''
             with pdfplumber.open(file_path) as pdf:
-                pages = pdf.pages[:config.MAX_PDF_PAGES]
+                total_pages = len(pdf.pages)
+                max_pages = config.MAX_PDF_PAGES if config.MAX_PDF_PAGES > 0 else total_pages
+                pages = pdf.pages[:max_pages]
                 for page in pages:
                     page_text = page.extract_text()
                     if page_text:
                         text += page_text + '\n'
 
-            if not text and len(pdf.pages) > config.MAX_PDF_PAGES:
-                print(f"  ⚠️ 文档超过{config.MAX_PDF_PAGES}页，只读取了前{config.MAX_PDF_PAGES}页")
+                if config.MAX_PDF_PAGES > 0 and total_pages > config.MAX_PDF_PAGES:
+                    print(f"  [Warn] {total_pages}页，截断读取前{config.MAX_PDF_PAGES}页")
 
             return text
         except Exception as e:

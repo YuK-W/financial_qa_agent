@@ -1,11 +1,15 @@
 # retrieval_system.py
 import os
 import re
+import sys
 import jieba
 import pdfplumber
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
 from rank_bm25 import BM25Okapi
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from config import config as cfg
 
 
 class FinancialRetrievalSystem:
@@ -67,14 +71,20 @@ class FinancialRetrievalSystem:
         return len(self.chunks)
     
     def _extract_pdf_text(self, pdf_path: str) -> str:
-        """提取PDF文本"""
-        with pdfplumber.open(pdf_path) as pdf:
-            text = ''
-            for page in pdf.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + '\n'
-        return text
+        """提取PDF文本（解析阶段不计Token，全量读取）"""
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                text = ''
+                total_pages = len(pdf.pages)
+                max_pages = cfg.MAX_PDF_PAGES if cfg.MAX_PDF_PAGES > 0 else total_pages
+                for page in pdf.pages[:max_pages]:
+                    page_text = page.extract_text()
+                    if page_text:
+                        text += page_text + '\n'
+            return text
+        except Exception as e:
+            print(f"  PDF解析错误 [{pdf_path}]: {e}")
+            return ''
     
     def _chunk_text(self, text: str, doc_id: str) -> List[Dict]:
         """将文本分块，每块约500字符"""

@@ -1,0 +1,4 @@
+qid,answer,prompt_tokens,completion_tokens,total_tokens
+summary,,5951,5188,11139
+fc_a_001,ABD,2966,1221,4187
+fc_a_002,D,2985,3967,6952

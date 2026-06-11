@@ -31,9 +31,9 @@ class Config:
 
         key = os.getenv("DASHSCOPE_API_KEY", "")
         if not key:
-            print("❌ 错误: 未找到 DASHSCOPE_API_KEY")
-            print("   请设置环境变量: set DASHSCOPE_API_KEY=你的密钥")
-            print("   或在项目根目录创建 .env 文件，写入: DASHSCOPE_API_KEY=你的密钥")
+            print("[ERROR] DASHSCOPE_API_KEY not found")
+            print("   Set env: set DASHSCOPE_API_KEY=your_key")
+            print("   Or create .env file: DASHSCOPE_API_KEY=your_key")
             sys.exit(1)
         return key
 
@@ -88,7 +88,7 @@ class Config:
     MAX_CONTEXT_CHARS = 5000          # 上下文最大字符数
     MAX_CONTEXT_TOKENS = 3000         # 上下文最大 token 数（估算）
     MAX_OUTPUT_TOKENS = 800           # 模型输出最大 token 数
-    MAX_PDF_PAGES = 30                # 单文档最多读取页数
+    MAX_PDF_PAGES = 0                 # 单文档最多读取页数（0=不限，解析阶段不计Token）
     TOKEN_ESTIMATE_RATIO = 1.8        # 中文混合文本：约 1.8 字符/token
 
     # ================================================================

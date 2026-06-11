@@ -67,7 +67,7 @@ class BatchProcessor:
         # 搜索文档路径（复用 config 的统一路径管理）
         pdf_path = self._find_document_path(doc_id)
         if not pdf_path:
-            print(f"  ⚠️ [BatchProcessor] 未找到文档: {doc_id}")
+            print(f"  [Warn] BatchProcessor: doc not found {doc_id}")
             return ""
 
         # 读取文档内容
@@ -76,14 +76,14 @@ class BatchProcessor:
             if text:
                 # 入缓存
                 self._doc_cache[doc_id] = text
-                print(f"  📄 [BatchProcessor] 加载文档: {doc_id} "
+                print(f"  [Load] BatchProcessor: {doc_id} "
                       f"({len(text)} 字符) → 已缓存")
                 return text
             else:
-                print(f"  ⚠️ [BatchProcessor] 文档为空: {doc_id}")
+                print(f"  [Warn] BatchProcessor: empty doc {doc_id}")
                 return ""
         except Exception as e:
-            print(f"  ❌ [BatchProcessor] 读取文档失败 [{doc_id}]: {e}")
+            print(f"  [Error] BatchProcessor: read failed [{doc_id}]: {e}")
             return ""
 
     def _find_document_path(self, doc_id: str) -> str:
@@ -122,7 +122,9 @@ class BatchProcessor:
             import pdfplumber
             text = ''
             with pdfplumber.open(file_path) as pdf:
-                for page in pdf.pages[:config.MAX_PDF_PAGES]:
+                total_pages = len(pdf.pages)
+                max_pages = config.MAX_PDF_PAGES if config.MAX_PDF_PAGES > 0 else total_pages
+                for page in pdf.pages[:max_pages]:
                     page_text = page.extract_text()
                     if page_text:
                         text += page_text + '\n'
@@ -159,7 +161,7 @@ class BatchProcessor:
                 all_doc_ids.add(doc_id)
 
         print(f"\n{'='*60}")
-        print(f"📦 批量处理: {len(questions_batch)} 道题目, "
+        print(f"[Batch] {len(questions_batch)} questions, "
               f"涉及 {len(all_doc_ids)} 个文档")
         print(f"{'='*60}")
 
@@ -170,7 +172,7 @@ class BatchProcessor:
             if content:
                 preloaded_docs[doc_id] = content
 
-        print(f"📊 预加载完成: {len(preloaded_docs)}/{len(all_doc_ids)} 个文档")
+        print(f"[Preload] {len(preloaded_docs)}/{len(all_doc_ids)} docs loaded")
         print(f"   缓存命中: {self._cache_hits}, 缓存未命中: {self._cache_misses}")
 
         # ---- 步骤3: 按文档分组显示 ----
@@ -196,7 +198,7 @@ class BatchProcessor:
                 result = self.agent.answer_question(q, preloaded_docs=preloaded_docs)
                 results.append(result)
             except Exception as e:
-                print(f"  ❌ 题目 {qid} 处理异常: {e}")
+                print(f"  [Error] qid={qid} failed: {e}")
                 # 单题失败不中断整批
                 results.append({
                     'qid': qid,
@@ -211,7 +213,7 @@ class BatchProcessor:
         total_tokens = sum(r.get('total_tokens', 0) for r in results)
         valid_results = [r for r in results if r.get('answer')]
         print(f"\n{'='*60}")
-        print(f"✅ 批处理完成: {len(valid_results)}/{len(results)} 成功")
+        print(f"[Done] {len(valid_results)}/{len(results)} succeeded")
         print(f"   Token 消耗: {total_tokens} (平均 {total_tokens // max(len(results), 1)}/题)")
         print(f"   缓存命中: {self._cache_hits}, 缓存未命中: {self._cache_misses}")
         print(f"{'='*60}\n")
@@ -223,7 +225,7 @@ class BatchProcessor:
         self._doc_cache.clear()
         self._cache_hits = 0
         self._cache_misses = 0
-        print("🧹 文档缓存已清空")
+        print("[Clear] doc cache cleared")
 
     @property
     def cache_stats(self) -> Dict[str, Any]:

@@ -4,7 +4,8 @@
 整合文档检索、上下文构建、Qwen推理、答案提取与验证
 
 核心流程:
-  1. 检索证据 → 2. 构建上下文 → 3. 调用 Qwen → 4. 提取答案 → 5. 验证格式
+  1. 检索证据 → 2. 证据聚合 → 3. 领域Prompt → 4. Qwen推理 → 5. 答案提取 → 6. 验算
+支持: A榜(doc_ids) / B榜(全领域检索) / 多轮推理模式
 """
 import os
 import re
@@ -16,26 +17,41 @@ import dashscope
 from dashscope import Generation
 from typing import Dict, Any, List, Optional, Tuple
 
-from config import config  # Bug 1 修复: 统一配置
+from config import config
+from domain_prompts import DomainPromptBuilder          # P1-1
+from multi_step_reasoning import MultiStepReasoner      # P1-2
+from numerical_calculator import FinancialCalculator    # P1-3
+from evidence_aggregator import EvidenceAggregator      # P1-4
 
 
 class FinancialQAAgent:
-    """金融长文本智能问答Agent"""
+    """金融长文本智能问答Agent — A榜/B榜双模式"""
 
-    def __init__(self, api_key: str = None, retrieval_system=None):
+    def __init__(self, api_key: str = None, retrieval_system=None,
+                 use_multi_step: bool = False, use_b_mode: bool = False):
         """
         初始化Agent
 
         Args:
             api_key: API Key，不传则从 config 读取
-            retrieval_system: 可选，FinancialRetrievalSystem 实例（传入后自动用于检索）
+            retrieval_system: 可选，FinancialRetrievalSystem 实例
+            use_multi_step: True=启用多轮推理(3轮API调用, 更准确但Token更多)
+            use_b_mode: True=B榜模式(无doc_ids时全领域检索)
         """
         self.api_key = api_key or config.api_key
         dashscope.api_key = self.api_key
         self.retrieval_system = retrieval_system
         self.last_prompt_tokens = 0
         self.last_completion_tokens = 0
-        self._indexed_doc_ids = set()  # 已索引的文档ID集合，避免重复索引
+        self._indexed_doc_ids = set()       # A榜: 已索引文档ID
+        self._all_docs_indexed = set()      # B榜: 已全量索引的领域
+
+        # P1 模块
+        self.use_multi_step = use_multi_step
+        self.use_b_mode = use_b_mode
+        self.reasoner = MultiStepReasoner(self) if use_multi_step else None
+        self.calculator = FinancialCalculator()
+        self.aggregator = EvidenceAggregator()
 
     # ================================================================
     # 主流程
@@ -43,12 +59,11 @@ class FinancialQAAgent:
     def answer_question(self, question_data: Dict[str, Any],
                         preloaded_docs: Dict[str, str] = None) -> Dict[str, Any]:
         """
-        回答单道题目（主入口）
+        回答单道题目（主入口）— A榜/B榜双模式。
 
         Args:
-            question_data: 题目数据 dict，含 qid, question, options, doc_ids 等
-            preloaded_docs: 可选，{doc_id: text_content} 预加载的文档内容，
-                           传入后跳过 PDF 读取，直接使用缓存内容
+            question_data: 题目数据 dict
+            preloaded_docs: 可选，{doc_id: text_content} 预加载文档
 
         Returns:
             {'qid', 'answer', 'prompt_tokens', 'completion_tokens', 'total_tokens'}
@@ -60,28 +75,49 @@ class FinancialQAAgent:
         answer_format = question_data.get('answer_format', 'mcq')
         doc_ids = question_data.get('doc_ids', [])
 
-        print(f"处理问题: {qid}  [{config.DOMAIN_NAMES.get(domain, domain)}]")
+        domain_name = config.DOMAIN_NAMES.get(domain, domain)
 
-        # P0-3: 确保文档已索引（解析阶段不计Token）
+        # P1-5 B榜模式: 无doc_ids → 全领域检索
+        if self.use_b_mode or (not doc_ids and not preloaded_docs):
+            doc_ids = self._resolve_doc_ids_b_mode(domain)
+            print(f"处理: {qid} [{domain_name}] [B榜] {len(doc_ids)} docs")
+        else:
+            print(f"处理: {qid} [{domain_name}] [A榜]")
+
+        # 阶段1: 索引 + 检索证据
         self._ensure_documents_indexed(doc_ids)
-
-        # 阶段1：检索证据（若有 preloaded_docs 则跳过 PDF 读取）
         evidences = self._retrieve_evidences(doc_ids, question, options,
                                              preloaded_docs=preloaded_docs)
 
-        # 阶段2：构建上下文
+        # P1-4: 证据聚合 + 矛盾检测
+        agg_result = self.aggregator.aggregate(evidences, question, options)
+        if agg_result['contradictions']:
+            print(f"  [聚合] 检测到 {len(agg_result['contradictions'])} 处跨文档矛盾")
+        evidences = agg_result['aggregated'] or evidences
+
+        # 阶段2: 构建上下文
         context = self._build_context(evidences)
 
-        # 阶段3：构建动态 Prompt（Bug 4 修复: 不再硬编码文档名）
-        prompt = self._build_dynamic_prompt(question, options, context, domain)
+        # 阶段3: P1-1 领域专用Prompt
+        prompt = self._build_domain_prompt(question, options, context, domain)
 
-        # 阶段4：调用模型
-        response = self._call_qwen(prompt, max_tokens=config.MAX_OUTPUT_TOKENS)
+        # P1-2: 多轮推理模式 vs 单轮模式
+        if self.use_multi_step and self.reasoner:
+            # 多轮推理 (3次API调用, 更准确)
+            ms_result = self.reasoner.reason_with_verification(
+                question, options, evidences, answer_format
+            )
+            answer = ms_result['answer']
+            print(f"  [多轮] 置信度={ms_result['confidence']:.2f}")
+        else:
+            # 单轮推理 (默认)
+            response = self._call_qwen(prompt, max_tokens=config.MAX_OUTPUT_TOKENS)
+            answer = self._extract_answer_from_response(response, answer_format)
 
-        # 阶段5：提取答案（Bug 2 修复: 多策略提取）
-        answer = self._extract_answer_from_response(response, answer_format)
+        # P1-3: 数值验算
+        answer = self._verify_numeric(answer, question, options, evidences)
 
-        # 阶段6：验证答案格式
+        # 阶段5: 验证答案格式
         validated_answer = self._validate_answer(answer, answer_format)
 
         return {
@@ -94,6 +130,72 @@ class FinancialQAAgent:
 
     # ================================================================
     # 证据检索
+    # ================================================================
+    # ================================================================
+    # P1-5 B榜: 无doc_ids时全领域检索
+    # ================================================================
+    def _resolve_doc_ids_b_mode(self, domain: str) -> List[str]:
+        """B榜模式: 根据domain获取该领域所有可用文档ID"""
+        raw_dir = config.get_raw_path(domain)
+        if not os.path.exists(raw_dir):
+            return []
+        doc_ids = []
+        for fname in os.listdir(raw_dir):
+            name, ext = os.path.splitext(fname)
+            if ext.lower() in ('.pdf', '.txt'):
+                doc_ids.append(name)
+        # 确保全量索引
+        self._index_all_docs_in_domain(domain, doc_ids)
+        return doc_ids
+
+    def _index_all_docs_in_domain(self, domain: str, doc_ids: List[str]) -> None:
+        """B榜: 索引领域内全部文档（解析阶段不计Token）"""
+        if domain in self._all_docs_indexed:
+            return
+        new_ids = [d for d in doc_ids if d not in self._indexed_doc_ids]
+        if not new_ids:
+            self._all_docs_indexed.add(domain)
+            return
+        self._ensure_documents_indexed(new_ids)
+        self._all_docs_indexed.add(domain)
+
+    # ================================================================
+    # P1-3: 数值验算
+    # ================================================================
+    def _verify_numeric(self, answer: str, question: str,
+                         options: Dict[str, str], evidences: List[Dict]) -> str:
+        """对数值类选项进行验算修正"""
+        # 检测是否涉及数值计算
+        num_keywords = ['亿元', '万元', '亿元', '%', '倍', '增长', '下降',
+                        '总额', '规模', '金额', '利率', '比例']
+        has_numeric = any(kw in question for kw in num_keywords)
+        for opt_text in options.values():
+            has_numeric = has_numeric or any(kw in opt_text for kw in num_keywords)
+
+        if not has_numeric or not answer or not evidences:
+            return answer
+
+        # 对选中的选项做数值验算
+        evidence_text = ' '.join(ev.get('content', '') for ev in evidences[:3])
+        corrected = []
+        changed = False
+
+        for ch in answer:
+            if ch in options:
+                opt_text = options[ch]
+                # 验算该选项的数值是否与证据一致
+                ok, msg = self.calculator.verify_option_amount(opt_text, evidence_text)
+                if not ok and '金额不一致' in msg:
+                    # 数值不匹配，标记但暂不自动修正（避免过度修改）
+                    print(f"  [验算] 选项{ch}数值可疑: {msg}")
+                corrected.append(ch)
+            else:
+                corrected.append(ch)
+
+        return ''.join(corrected) if not changed else answer
+
+    # ================================================================
+    # P0-3: 文档索引桥接
     # ================================================================
     def _ensure_documents_indexed(self, doc_ids: List[str]) -> None:
         """
@@ -370,83 +472,11 @@ class FinancialQAAgent:
 
         return context
 
-    def _build_dynamic_prompt(self, question: str, options: Dict[str, str],
-                               context: str, domain: str) -> str:
-        """
-        Bug 4 修复: 动态构建 Prompt。
-
-        - 不再硬编码 text01/text02
-        - 支持任意数量的证据片段
-        - 按领域自动调整分析要点
-        """
-        # 构建选项文本
-        options_text = "\n".join(
-            f"{key}. {options[key]}" for key in ['A', 'B', 'C', 'D']
-            if key in options
-        )
-
-        # 领域特定的分析要点
-        domain_tips = self._get_domain_tips(domain)
-
-        domain_name = config.DOMAIN_NAMES.get(domain, "金融文档")
-
-        # 动态统计上下文中的证据数量
-        evidence_count = context.count("【证据")
-
-        return f"""你是一个{domain_name}分析专家。请严格依据以下文档内容回答问题。
-
-## 文档证据（共 {evidence_count} 个相关片段）
-{context}
-
-## 问题
-{question}
-
-## 选项
-{options_text}
-
-## 分析要点
-{domain_tips}
-
-## 输出要求
-1. 逐项分析每个选项的正确性，引用文档中的具体证据
-2. 最后以"正确答案："开头，输出最终答案
-   - 单选题/判断题：输出单个字母（如 A）
-   - 多选题：按字母顺序输出，无分隔符（如 ABC）
-
-请开始分析："""
-
-    def _get_domain_tips(self, domain: str) -> str:
-        """根据领域返回对应的分析要点（Bug 4 配套: 领域适配）"""
-        tips = {
-            'financial_contracts': (
-                "1. 核对发行主体、发行规模、信用评级是否与文档一致\n"
-                "2. 注意受托管理人、主承销商等中介机构名称\n"
-                "3. 检查债券期限、票面利率等关键数值"
-            ),
-            'financial_reports': (
-                "1. 核对财务数据（营业收入、净利润、总资产等）是否与报表一致\n"
-                "2. 注意同比/环比变化方向与幅度\n"
-                "3. 检查合并报表范围与会计政策"
-            ),
-            'insurance': (
-                "1. 仔细核对保险责任的范围和限制条件\n"
-                "2. 注意除外责任条款\n"
-                "3. 计算现金价值时注意缴费年限和退保时间\n"
-                "4. 身故保险金注意区分意外身故和疾病身故"
-            ),
-            'regulatory': (
-                "1. 严格匹配法条原文，不要自行解释\n"
-                "2. 注意'应当'、'可以'、'必须'等强制性词汇\n"
-                "3. 注意适用条件和例外情形\n"
-                "4. 注意法规的施行日期和适用范围"
-            ),
-            'research': (
-                "1. 核对研报中的评级（买入/增持/中性/减持/卖出）\n"
-                "2. 注意目标价与当前价的对比\n"
-                "3. 关注盈利预测与风险提示"
-            ),
-        }
-        return tips.get(domain, "1. 逐项核对选项与文档原文是否一致\n2. 注意数值、日期、名称等关键信息")
+    # P1-1: 领域专用Prompt（替代原 _build_dynamic_prompt + _get_domain_tips）
+    def _build_domain_prompt(self, question: str, options: Dict[str, str],
+                              context: str, domain: str) -> str:
+        """使用 DomainPromptBuilder 构建5领域专用Prompt"""
+        return DomainPromptBuilder.build_prompt(domain, question, options, context)
 
     # ================================================================
     # API 调用

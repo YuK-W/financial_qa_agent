@@ -1,0 +1,81 @@
+{
+  "overall": {
+    "total": 2,
+    "correct": 0,
+    "accuracy": "0.0%",
+    "total_tokens": 11139,
+    "avg_tokens": "5,570",
+    "token_score": "0.9978",
+    "final_score": "0.00"
+  },
+  "by_domain": {
+    "金融合同": {
+      "total": 2,
+      "correct": 0,
+      "wrong": 2,
+      "accuracy": "0.0%",
+      "total_tokens": 11139,
+      "avg_tokens": "5,570"
+    }
+  },
+  "by_type": {
+    "多选题": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": "0.0%"
+    }
+  },
+  "token_efficiency": {
+    "inefficient_count": 1,
+    "efficient_count": 0,
+    "avg_per_domain": {
+      "金融合同": "5,570"
+    },
+    "max_single": 6952,
+    "min_single": 4187
+  },
+  "error_details": [
+    {
+      "qid": "fc_a_001",
+      "domain": "金融合同",
+      "type": "multi",
+      "expected": "",
+      "actual": "ABD",
+      "tokens": 4187,
+      "doc_ids": "text01, text02",
+      "question": "基于提供的两份债券募集说明书摘要，关于发行主体、发行规模及中介机构安排，下列哪些描述是准确的？"
+    },
+    {
+      "qid": "fc_a_002",
+      "domain": "金融合同",
+      "type": "multi",
+      "expected": "",
+      "actual": "D",
+      "tokens": 6952,
+      "doc_ids": "text01, text14",
+      "question": "对比两份文档中的债券发行要素与评级信息，以下哪些结论成立？"
+    }
+  ],
+  "worst_questions": [
+    {
+      "qid": "fc_a_002",
+      "domain": "金融合同",
+      "type": "multi",
+      "expected": "",
+      "actual": "D",
+      "tokens": 6952,
+      "doc_ids": "text01, text14",
+      "question": "对比两份文档中的债券发行要素与评级信息，以下哪些结论成立？"
+    },
+    {
+      "qid": "fc_a_001",
+      "domain": "金融合同",
+      "type": "multi",
+      "expected": "",
+      "actual": "ABD",
+      "tokens": 4187,
+      "doc_ids": "text01, text02",
+      "question": "基于提供的两份债券募集说明书摘要，关于发行主体、发行规模及中介机构安排，下列哪些描述是准确的？"
+    }
+  ]
+}

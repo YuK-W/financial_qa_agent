@@ -23,6 +23,8 @@ from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config import config
+from logger import log                                        # P2-1
+from exceptions import FinancialQABaseError                   # P2-4
 from financial_qa_agent import FinancialQAAgent
 from batch_processor import BatchProcessor
 
@@ -55,7 +57,7 @@ class ABenchmark:
         for domain in config.DOMAINS:
             path = config.get_question_path("group_a", domain)
             if not os.path.exists(path):
-                print(f"  [Warn] question file not found: {path}")
+                log.warning(f"question file not found: {path}")
                 continue
             with open(path, 'r', encoding='utf-8') as f:
                 questions = json.load(f)
@@ -116,7 +118,7 @@ class ABenchmark:
                     self.total_completion_tokens += result['completion_tokens']
 
                 except Exception as e:
-                    print(f"\n  [Error] {q.get('qid', '?')} failed: {e}")
+                    log.error(f"{q.get('qid', '?')} failed: {e}")
                     self.results.append({
                         'qid': q.get('qid', '?'),
                         'answer': '',

@@ -18,6 +18,10 @@ from dashscope import Generation
 from typing import Dict, Any, List, Optional, Tuple
 
 from config import config
+from logger import log                                   # P2-1
+from exceptions import (                                 # P2-4
+    PDFReadError, DocumentNotFoundError, APIError, AnswerParseError
+)
 from domain_prompts import DomainPromptBuilder          # P1-1
 from multi_step_reasoning import MultiStepReasoner      # P1-2
 from numerical_calculator import FinancialCalculator    # P1-3
@@ -80,9 +84,9 @@ class FinancialQAAgent:
         # P1-5 B榜模式: 无doc_ids → 全领域检索
         if self.use_b_mode or (not doc_ids and not preloaded_docs):
             doc_ids = self._resolve_doc_ids_b_mode(domain)
-            print(f"处理: {qid} [{domain_name}] [B榜] {len(doc_ids)} docs")
+            log.info(f"{qid} [{domain_name}] [B榜] {len(doc_ids)} docs")
         else:
-            print(f"处理: {qid} [{domain_name}] [A榜]")
+            log.info(f"{qid} [{domain_name}] [A榜]")
 
         # 阶段1: 索引 + 检索证据
         self._ensure_documents_indexed(doc_ids)
@@ -92,7 +96,7 @@ class FinancialQAAgent:
         # P1-4: 证据聚合 + 矛盾检测
         agg_result = self.aggregator.aggregate(evidences, question, options)
         if agg_result['contradictions']:
-            print(f"  [聚合] 检测到 {len(agg_result['contradictions'])} 处跨文档矛盾")
+            log.warning(f"跨文档矛盾: {len(agg_result['contradictions'])} 处")
         evidences = agg_result['aggregated'] or evidences
 
         # 阶段2: 构建上下文
@@ -108,7 +112,7 @@ class FinancialQAAgent:
                 question, options, evidences, answer_format
             )
             answer = ms_result['answer']
-            print(f"  [多轮] 置信度={ms_result['confidence']:.2f}")
+            log.debug(f"多轮置信度={ms_result['confidence']:.2f}")
         else:
             # 单轮推理 (默认)
             response = self._call_qwen(prompt, max_tokens=config.MAX_OUTPUT_TOKENS)
@@ -187,7 +191,7 @@ class FinancialQAAgent:
                 ok, msg = self.calculator.verify_option_amount(opt_text, evidence_text)
                 if not ok and '金额不一致' in msg:
                     # 数值不匹配，标记但暂不自动修正（避免过度修改）
-                    print(f"  [验算] 选项{ch}数值可疑: {msg}")
+                    log.warning(f"验算可疑 选项{ch}: {msg}")
                 corrected.append(ch)
             else:
                 corrected.append(ch)
@@ -230,7 +234,7 @@ class FinancialQAAgent:
         # 按领域索引
         for domain, ids in domain_groups.items():
             docs_dir = config.get_raw_path(domain)
-            print(f"  [索引] {domain}: {len(ids)} 个文档 ({', '.join(ids)})")
+            log.debug(f"索引 {domain}: {len(ids)} docs ({', '.join(ids)})")
             self.retrieval_system.index_documents(docs_dir, ids)
             self._indexed_doc_ids.update(ids)
 
@@ -267,10 +271,10 @@ class FinancialQAAgent:
                         'content': r.get('content', ''),
                         'relevance': r.get('relevance', 0)
                     })
-                print(f"  [检索系统] 找到 {len(evidences)} 个证据片段")
+                log.debug(f"检索系统: {len(evidences)} 证据")
                 return evidences[:config.EVIDENCE_MAX_TOTAL]
             except Exception as e:
-                print(f"  检索系统异常，回退到关键词检索: {e}")
+                log.warning(f"检索异常回退关键词: {e}")
 
         # 回退：逐文档提取关键段落
         key_entities = self._extract_key_entities(question, options)
@@ -278,14 +282,14 @@ class FinancialQAAgent:
         for doc_id in doc_ids:
             # Bug 6 修复: 优先使用预加载文档
             if doc_id in preloaded_docs:
-                print(f"  [Cache] {doc_id}")
+                log.debug(f"[Cache] {doc_id}")
                 text = preloaded_docs[doc_id]
             else:
                 pdf_path = self._find_pdf_path(doc_id)
                 if not pdf_path:
-                    print(f"  未找到文档: {doc_id}")
+                    log.warning(f"文档未找到: {doc_id}")
                     continue
-                print(f"  [Read] {doc_id}")
+                log.debug(f"[Read] {doc_id}")
                 text = self._read_pdf(pdf_path)
 
             if not text:
@@ -301,7 +305,7 @@ class FinancialQAAgent:
 
         # 按相关度排序
         evidences.sort(key=lambda x: x.get('relevance', 0), reverse=True)
-        print(f"  找到 {len(evidences)} 个证据片段")
+        log.debug(f"找到 {len(evidences)} 证据")
         return evidences[:config.EVIDENCE_MAX_TOTAL]
 
     # ================================================================
@@ -378,11 +382,11 @@ class FinancialQAAgent:
                         text += page_text + '\n'
 
                 if config.MAX_PDF_PAGES > 0 and total_pages > config.MAX_PDF_PAGES:
-                    print(f"  [Warn] {total_pages}页，截断读取前{config.MAX_PDF_PAGES}页")
+                    log.warning(f"文档{total_pages}页，截断读取前{config.MAX_PDF_PAGES}页")
 
             return text
         except Exception as e:
-            print(f"  PDF读取错误 [{file_path}]: {e}")
+            log.error(f"PDF读取错误 [{file_path}]: {e}")
             return ''
 
     def _extract_key_entities(self, question: str, options: Dict[str, str]) -> Dict[str, str]:
@@ -495,7 +499,7 @@ class FinancialQAAgent:
             )
 
             if response.status_code != 200:
-                print(f"  API错误 [{response.status_code}]: {response.message}")
+                log.error(f"API错误 [{response.status_code}]: {response.message}")
                 self.last_prompt_tokens = 0
                 self.last_completion_tokens = 0
                 return ""
@@ -515,7 +519,7 @@ class FinancialQAAgent:
             return ""
 
         except Exception as e:
-            print(f"  API调用错误: {e}")
+            log.error(f"API调用异常: {e}")
             self.last_prompt_tokens = 0
             self.last_completion_tokens = 0
             return ""
@@ -564,7 +568,7 @@ class FinancialQAAgent:
                 # 确保只含 A-D
                 answer = ''.join(c for c in answer if c in 'ABCD')
                 if answer:
-                    print(f"  [答案提取-S1] '{answer}' (via 显式声明)")
+                    log.debug(f"答案提取-S1: '{answer}'")
                     if answer_format in ('mcq', 'tf'):
                         return answer[0]
                     return ''.join(sorted(set(answer)))
@@ -603,7 +607,7 @@ class FinancialQAAgent:
 
         if correct_opts:
             answer = ''.join(sorted(set(correct_opts)))
-            print(f"  [答案提取-S2] '{answer}' (via 逐项判断, 正确选项: {correct_opts})")
+            log.debug(f"答案提取-S2: '{answer}' (correct: {correct_opts})")
             if answer_format in ('mcq', 'tf'):
                 return answer[0]
             return answer
@@ -619,18 +623,18 @@ class FinancialQAAgent:
             if answer_format in ('mcq', 'tf'):
                 # 单选/判断：取最后出现的单个字母
                 answer = all_letters[-1]
-                print(f"  [答案提取-S3] '{answer}' (via 末尾字母)")
+                log.debug(f"答案提取-S3: '{answer}' (tail)")
                 return answer
             else:
                 # 多选：取去重排序后的所有字母
                 answer = ''.join(sorted(set(all_letters)))
-                print(f"  [答案提取-S3] '{answer}' (via 字母频率)")
+                log.debug(f"答案提取-S3: '{answer}' (freq)")
                 return answer
 
         # ================================================================
         # S4: Fallback
         # ================================================================
-        print(f"  [答案提取-S4] 无法提取，返回空字符串")
+        log.warning("答案提取-S4: 无法提取")
         return ''
 
     def _validate_answer(self, answer: str, answer_format: str) -> str:

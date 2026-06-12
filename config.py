@@ -39,8 +39,8 @@ class Config:
 
     @property
     def model_name(self) -> str:
-        """Qwen 模型名称（竞赛基准 Qwen3.7-Max）"""
-        return "qwen3.7-max"
+        """Qwen 模型名称"""
+        return "qwen-plus"  # qwen3.6-plus
 
     # ================================================================
     # 路径配置 —— 基于项目根目录，消除硬编码

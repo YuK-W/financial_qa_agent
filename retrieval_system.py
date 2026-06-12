@@ -353,7 +353,7 @@ class FinancialRetrievalSystem:
                         text += page_text + '\n'
             return text
         except Exception as e:
-            print(f"  PDF解析错误 [{pdf_path}]: {e}")
+            print(f"  PDF解析错误 [{file_path}]: {e}")
             return ''
     
     def _chunk_text(self, text: str, doc_id: str) -> List[Dict]:

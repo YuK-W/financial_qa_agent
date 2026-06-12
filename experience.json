@@ -1,0 +1,2001 @@
+{
+  "low_confidence": {
+    "fin_a_001": [
+      "default"
+    ],
+    "fin_a_002": [
+      "default"
+    ],
+    "fin_a_003": [
+      "default"
+    ],
+    "fin_a_004": [
+      "default"
+    ],
+    "fin_a_005": [
+      "default"
+    ],
+    "fin_a_006": [
+      "default"
+    ],
+    "fin_a_007": [
+      "default"
+    ],
+    "fin_a_008": [
+      "default"
+    ],
+    "fin_a_009": [
+      "default"
+    ],
+    "fin_a_010": [
+      "default"
+    ],
+    "fin_a_011": [
+      "default"
+    ],
+    "fin_a_012": [
+      "default"
+    ],
+    "fin_a_013": [
+      "default"
+    ],
+    "fin_a_014": [
+      "default"
+    ],
+    "fin_a_015": [
+      "default"
+    ],
+    "fin_a_016": [
+      "default"
+    ],
+    "fin_a_017": [
+      "default"
+    ],
+    "fin_a_018": [
+      "default"
+    ],
+    "fin_a_019": [
+      "default"
+    ],
+    "fin_a_020": [
+      "default"
+    ],
+    "ins_a_001": [
+      "default",
+      "default"
+    ],
+    "ins_a_002": [
+      "default",
+      "default"
+    ],
+    "ins_a_003": [
+      "default",
+      "default"
+    ],
+    "ins_a_004": [
+      "default",
+      "default"
+    ],
+    "ins_a_005": [
+      "default",
+      "default"
+    ],
+    "ins_a_006": [
+      "default",
+      "default"
+    ],
+    "ins_a_007": [
+      "default",
+      "default"
+    ],
+    "ins_a_008": [
+      "default",
+      "default"
+    ],
+    "ins_a_009": [
+      "default",
+      "default"
+    ],
+    "ins_a_010": [
+      "default",
+      "default"
+    ],
+    "ins_a_011": [
+      "default",
+      "default"
+    ],
+    "ins_a_012": [
+      "default",
+      "default"
+    ],
+    "ins_a_013": [
+      "default",
+      "default"
+    ],
+    "ins_a_014": [
+      "default",
+      "default"
+    ],
+    "ins_a_015": [
+      "default",
+      "default"
+    ],
+    "ins_a_016": [
+      "default",
+      "default"
+    ],
+    "ins_a_017": [
+      "default",
+      "default"
+    ],
+    "ins_a_018": [
+      "default",
+      "default"
+    ],
+    "ins_a_019": [
+      "default",
+      "default"
+    ],
+    "ins_a_020": [
+      "default",
+      "default"
+    ],
+    "reg_a_001": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_002": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_003": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_004": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_005": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_006": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_007": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_008": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_009": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_010": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_011": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_012": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_013": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_014": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_015": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_018": [
+      "default",
+      "default",
+      "default"
+    ],
+    "reg_a_020": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_001": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_002": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_003": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_004": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_005": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_006": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_007": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_008": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_009": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_010": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_011": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_012": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_013": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_014": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_015": [
+      "default",
+      "default",
+      "default"
+    ],
+    "res_a_016": [
+      "default",
+      "default"
+    ],
+    "res_a_017": [
+      "default",
+      "default"
+    ],
+    "res_a_018": [
+      "default",
+      "default"
+    ],
+    "res_a_019": [
+      "default",
+      "default"
+    ],
+    "res_a_020": [
+      "default",
+      "default"
+    ],
+    "reg_a_016": [
+      "default"
+    ],
+    "reg_a_017": [
+      "default"
+    ],
+    "reg_a_019": [
+      "default"
+    ]
+  },
+  "patterns": {
+    "financial_reports_multi": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 39
+        },
+        "time": 1781246638.9484658
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781246774.392166
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 50
+        },
+        "time": 1781247414.9552846
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781247480.5550926
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 43
+        },
+        "time": 1781247665.828486
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 43
+        },
+        "time": 1781247717.581481
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781247765.7240624
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 53
+        },
+        "time": 1781248027.135264
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781248047.6477182
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 42
+        },
+        "time": 1781248097.794662
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 47
+        },
+        "time": 1781248138.2318578
+      }
+    ],
+    "financial_reports_tf": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 100
+        },
+        "time": 1781247059.2356608
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 86
+        },
+        "time": 1781247435.1012528
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 71
+        },
+        "time": 1781247679.597489
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 52
+        },
+        "time": 1781247803.7226262
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 59
+        },
+        "time": 1781248069.0511467
+      }
+    ],
+    "financial_reports_mcq": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781247545.4636445
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 48
+        },
+        "time": 1781248003.874986
+      }
+    ],
+    "insurance_mcq": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 170
+        },
+        "time": 1781248186.7167065
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 138
+        },
+        "time": 1781248209.0044043
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 132
+        },
+        "time": 1781248266.857015
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 34
+        },
+        "time": 1781248296.8883486
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 162
+        },
+        "time": 1781248374.1197643
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 170
+        },
+        "time": 1781249288.2881048
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 138
+        },
+        "time": 1781249309.181977
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 132
+        },
+        "time": 1781249358.002282
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 34
+        },
+        "time": 1781249394.027807
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 162
+        },
+        "time": 1781249452.2788346
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 56
+        },
+        "time": 1781249700.2532873
+      }
+    ],
+    "insurance_multi": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 20
+        },
+        "time": 1781248329.8976502
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 18
+        },
+        "time": 1781248397.8277378
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 27
+        },
+        "time": 1781248427.050243
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 20
+        },
+        "time": 1781249416.2478557
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 18
+        },
+        "time": 1781249491.7738812
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 27
+        },
+        "time": 1781249522.3694897
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 55
+        },
+        "time": 1781249654.9362037
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 31
+        },
+        "time": 1781249735.4170141
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 50
+        },
+        "time": 1781249756.432763
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 38
+        },
+        "time": 1781249831.9621809
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 57
+        },
+        "time": 1781249858.4777508
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 20
+        },
+        "time": 1781249893.6165044
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 66
+        },
+        "time": 1781249920.8445058
+      }
+    ],
+    "regulatory_multi": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781250681.246133
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 42
+        },
+        "time": 1781250752.8112197
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 67
+        },
+        "time": 1781251427.3584661
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 56
+        },
+        "time": 1781251451.933316
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781251493.2973902
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781251512.5574596
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 61
+        },
+        "time": 1781251619.4333189
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 63
+        },
+        "time": 1781251749.194024
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 38
+        },
+        "time": 1781251822.6212864
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 29
+        },
+        "time": 1781251855.7947326
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781251910.5858078
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 43
+        },
+        "time": 1781251987.2851126
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781252010.4231508
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 47
+        },
+        "time": 1781252060.275551
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 42
+        },
+        "time": 1781252081.823885
+      }
+    ],
+    "regulatory_mcq": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 54
+        },
+        "time": 1781250715.667951
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 60
+        },
+        "time": 1781251691.3550818
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 54
+        },
+        "time": 1781251948.7779949
+      }
+    ],
+    "regulatory_tf": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 72
+        },
+        "time": 1781250738.2008693
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 69
+        },
+        "time": 1781251476.4743662
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 78
+        },
+        "time": 1781251538.3275707
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 115
+        },
+        "time": 1781251771.0080924
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 49
+        },
+        "time": 1781251883.0374691
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 72
+        },
+        "time": 1781252036.8488905
+      }
+    ],
+    "research_multi": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 36
+        },
+        "time": 1781250799.8381267
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 33
+        },
+        "time": 1781250867.9399283
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781250955.3924556
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 32
+        },
+        "time": 1781251025.229665
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 27
+        },
+        "time": 1781251105.6799245
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781251152.5179932
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781251170.5314047
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 25
+        },
+        "time": 1781251197.5670545
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 36
+        },
+        "time": 1781252127.88302
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 33
+        },
+        "time": 1781252187.1697364
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781252271.4453776
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 32
+        },
+        "time": 1781252365.5513203
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 27
+        },
+        "time": 1781252441.1645606
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781252535.3520675
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781252546.287971
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 25
+        },
+        "time": 1781252582.1333387
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781252756.6250062
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 49
+        },
+        "time": 1781252772.344673
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 48
+        },
+        "time": 1781252893.5292606
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 44
+        },
+        "time": 1781252913.2979596
+      }
+    ],
+    "research_tf": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 57
+        },
+        "time": 1781250908.8947394
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 85
+        },
+        "time": 1781251010.6476805
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 53
+        },
+        "time": 1781251133.9780118
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781251183.227904
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 57
+        },
+        "time": 1781252228.4327178
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 85
+        },
+        "time": 1781252351.4232724
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 53
+        },
+        "time": 1781252521.5840645
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781252567.7478244
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 79
+        },
+        "time": 1781252871.1050935
+      }
+    ],
+    "research_mcq": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 30
+        },
+        "time": 1781251089.944616
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781251278.4692185
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 30
+        },
+        "time": 1781252421.3484004
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781252673.3750906
+      }
+    ]
+  },
+  "bad_cases": [
+    {
+      "qid": "fin_a_004",
+      "domain": "financial_reports",
+      "answer_format": "multi",
+      "question": "对照美的集团 2024 年与 2025 年年度报告，关于公司业绩增长与资金运作情况的描述，哪些是正确的？",
+      "answer": "ABCD",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 52
+      },
+      "time": 1781247367.0515964
+    },
+    {
+      "qid": "fin_a_014",
+      "domain": "financial_reports",
+      "answer_format": "multi",
+      "question": "基于比亚迪与宁德时代 2025 年年报信息，关于业绩增长与分红政策的描述，正确的选项是？",
+      "answer": "ABCD",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 44
+      },
+      "time": 1781247916.9663825
+    },
+    {
+      "qid": "ins_a_010",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "关于“现金价值”的表述，下列哪些产品的条款中明确给出了具体的计算方法或公式？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 38
+      },
+      "time": 1781248621.9858296
+    },
+    {
+      "qid": "ins_a_011",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "李某同时投保了众安白血病医疗险、平安e生保、太保团体百万医疗、众安营运交通意外险。某日李某因车祸导致骨折住院，总费用5万元，医保报销2万元。以下哪些产品可以赔付？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 81
+      },
+      "time": 1781248622.633697
+    },
+    {
+      "qid": "ins_a_012",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "关于“宽限期”后合同效力中止的处理，下列哪些产品的条款中明确：效力中止期间发生保险事故，保险人不承担保险责任？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 55
+      },
+      "time": 1781248625.1729455
+    },
+    {
+      "qid": "ins_a_013",
+      "domain": "insurance",
+      "answer_format": "mcq",
+      "question": "三个养老保险产品（平安智盈金生、国寿鑫享添盈、平安富鸿金生）关于“养老年金开始领取日”的变更规定，以下哪项正确？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 3,
+        "question_len": 56
+      },
+      "time": 1781248626.1338425
+    },
+    {
+      "qid": "ins_a_014",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "赵某因意外事故导致双耳失聪，他投保了以下哪些产品可以获得赔付？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 31
+      },
+      "time": 1781248626.7106824
+    },
+    {
+      "qid": "ins_a_015",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "关于“故意自伤或自杀”的免责，以下哪些产品的条款中明确将“自杀”列为责任免除，但规定了2年后的例外？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 50
+      },
+      "time": 1781248627.3087592
+    },
+    {
+      "qid": "ins_a_016",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "关于“施救费用”的赔偿上限，下列哪些产品的条款中明确规定最高不超过保险金额？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 38
+      },
+      "time": 1781248630.8863652
+    },
+    {
+      "qid": "ins_a_017",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "某被保险人同时拥有国寿增益宝、众安白血病医疗险、众安营运交通意外险、平安家财险。以下哪些事故会导致相应产品的赔付？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 57
+      },
+      "time": 1781248631.4978201
+    },
+    {
+      "qid": "ins_a_018",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "关于“免赔额”的抵扣，以下哪些说法正确？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 20
+      },
+      "time": 1781248632.0094368
+    },
+    {
+      "qid": "ins_a_019",
+      "domain": "insurance",
+      "answer_format": "multi",
+      "question": "假设四款产品（平安智盈金生、国寿增益宝、平安安佑福、平安富鸿金生）的投保人均在犹豫期内解除合同，则以下哪些产品会退还全部已交保险费？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 4,
+        "question_len": 66
+      },
+      "time": 1781248632.595189
+    },
+    {
+      "qid": "ins_a_020",
+      "domain": "insurance",
+      "answer_format": "mcq",
+      "question": "王某投保了平安e生保（有医保）、太保团体百万医疗（有医保）、众安家财险。某日家中水管爆裂造成地板损坏，维修费用8000元；同时王某因修理时不慎摔伤，门诊费用2000元（医保未报销）。以下赔付结果正确的",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 3,
+        "question_len": 102
+      },
+      "time": 1781248633.1491694
+    },
+    {
+      "qid": "reg_a_001",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于《金融机构客户受益所有人识别管理办法》与《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》的实施要求，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 67
+      },
+      "time": 1781248636.5886395
+    },
+    {
+      "qid": "reg_a_002",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《中华人民共和国反洗钱法》与《金融机构客户受益所有人识别管理办法》，下列关于金融机构义务的说法中，正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 56
+      },
+      "time": 1781248637.306317
+    },
+    {
+      "qid": "reg_a_003",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "根据相关法规，金融机构在处理上市公司受益所有人身份信息时，因包含照片等敏感数据项，原则上不得在终端设备中存储，确需存储的应当统一规范管理。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 69
+      },
+      "time": 1781248638.0712006
+    },
+    {
+      "qid": "reg_a_004",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于金融机构及银行卡清算机构的报告时限要求，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 31
+      },
+      "time": 1781248638.9059386
+    },
+    {
+      "qid": "reg_a_005",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《金融机构客户受益所有人识别管理办法》与《非银行支付机构监督管理条例实施细则》，以下说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 51
+      },
+      "time": 1781248639.8012402
+    },
+    {
+      "qid": "reg_a_006",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "根据相关规定，金融机构对存量高风险非自然人客户的受益所有人识别核实工作应自新规施行之日起 6 个月内完成，且上市公司定期报告在未经董事会审议通过前不得披露。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 78
+      },
+      "time": 1781248643.413888
+    },
+    {
+      "qid": "reg_a_007",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》与《中华人民共和国反洗钱法》的相关规定，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 61
+      },
+      "time": 1781248644.0104365
+    },
+    {
+      "qid": "reg_a_008",
+      "domain": "regulatory",
+      "answer_format": "mcq",
+      "question": "依据《银行卡清算机构管理办法》和《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》，下列哪项表述符合监管要求？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 60
+      },
+      "time": 1781248644.6155992
+    },
+    {
+      "qid": "reg_a_009",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《中国人民银行业务领域数据安全管理办法》与《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》，以下说法正确的是？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 63
+      },
+      "time": 1781248645.253671
+    },
+    {
+      "qid": "reg_a_010",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "按照现行规定，非银行支付机构董事、监事在同一机构内调任职位的，应当于变更完成后 10 日内向所在地人民银行分支机构报告；同时，对于无法按规开展客户尽职调查的金融机构，应当终止已建立的业务关系并向反洗钱",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 115
+      },
+      "time": 1781248645.8670688
+    },
+    {
+      "qid": "reg_a_011",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "根据相关监管规定，下列哪些情形需要履行特定的内部审批程序或满足特定金额门槛？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 38
+      },
+      "time": 1781248650.1369936
+    },
+    {
+      "qid": "reg_a_012",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于上市公司治理及年度报告编制，以下说法符合规定的有哪些？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 29
+      },
+      "time": 1781248652.8172944
+    },
+    {
+      "qid": "reg_a_013",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "上市公司应当在股东会召开前披露董事候选人，且半年度报告内容应当经上市公司董事会审议通过后方可披露。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 49
+      },
+      "time": 1781248655.5745082
+    },
+    {
+      "qid": "reg_a_014",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合上市公司治理准则与章程指引，下列关于股东大会职权及会议规则的描述正确的有哪些？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 41
+      },
+      "time": 1781248659.2164202
+    },
+    {
+      "qid": "reg_a_015",
+      "domain": "regulatory",
+      "answer_format": "mcq",
+      "question": "根据《上市公司信息披露管理办法》和《上市公司治理准则》，关于定期报告与利润分配的规定，下列哪项表述是准确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 54
+      },
+      "time": 1781248659.8531826
+    },
+    {
+      "qid": "reg_a_018",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "判断题：根据相关监管规定，上市公司定期报告须经董事会审议通过后方可披露，且证券公司因重大违法违规被实施行政处罚的，其分类评价得分将受到相应扣减。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 72
+      },
+      "time": 1781248664.1382911
+    },
+    {
+      "qid": "reg_a_020",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "依据相关准则与规定，关于半年度报告的编制要求及监管规定的生效时点，下列描述准确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 42
+      },
+      "time": 1781248664.828293
+    },
+    {
+      "qid": "res_a_001",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于银保渠道发展历程及银行 IT 市场规模的描述，下列哪些选项是正确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 36
+      },
+      "time": 1781248675.5630374
+    },
+    {
+      "qid": "res_a_002",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "结合两份报告内容，关于行业市场规模及增速的预测，以下说法正确的是？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 33
+      },
+      "time": 1781248683.7795024
+    },
+    {
+      "qid": "res_a_003",
+      "domain": "research",
+      "answer_format": "tf",
+      "question": "判断以下陈述是否正确：韩国寿险银保渠道近 20 年的复合增速低于远望谷在新兴赛道的 RFID 标签出货量复合增速。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 57
+      },
+      "time": 1781248689.5490315
+    },
+    {
+      "qid": "res_a_004",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于芯原股份的业务模式及银保渠道发展情况，下列描述符合文档内容的是？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 34
+      },
+      "time": 1781248697.3382413
+    },
+    {
+      "qid": "res_a_005",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "基于消费与保险行业报告，关于经济增长指标及渠道贡献的说法，正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 34
+      },
+      "time": 1781248708.1573236
+    },
+    {
+      "qid": "res_a_006",
+      "domain": "research",
+      "answer_format": "tf",
+      "question": "判断以下陈述是否正确：2008 年至 2025 年前三季度，我国上市券商客户资金杠杆从 1.56 倍提升至 4.09 倍，同期自有资产净利率由 4.3% 降至 1.8%。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 85
+      },
+      "time": 1781248716.3369029
+    },
+    {
+      "qid": "res_a_007",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于网络安全运营及银行 IT 企业的财务表现，下列描述准确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 32
+      },
+      "time": 1781248720.1476457
+    },
+    {
+      "qid": "res_a_008",
+      "domain": "research",
+      "answer_format": "mcq",
+      "question": "下列关于网络安全标准及光通信市场规模的描述，哪一项是正确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 30
+      },
+      "time": 1781248720.7473166
+    },
+    {
+      "qid": "res_a_009",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "结合银保渠道历史与网络安全运营数据，以下说法成立的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 27
+      },
+      "time": 1781248721.2732325
+    },
+    {
+      "qid": "res_a_010",
+      "domain": "research",
+      "answer_format": "tf",
+      "question": "判断以下陈述是否正确：根据文档信息，上周新成立基金份额为 91.1 亿份，其中主动型新发 56.3 亿份。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 53
+      },
+      "time": 1781248741.129522
+    },
+    {
+      "qid": "res_a_011",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于券商杠杆变化及安全运营规则的统计，下列选项正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 28
+      },
+      "time": 1781248741.6845655
+    },
+    {
+      "qid": "res_a_012",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于芯片设计服务与安全运营数据的描述，符合文档内容的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 28
+      },
+      "time": 1781248742.2795036
+    },
+    {
+      "qid": "res_a_013",
+      "domain": "research",
+      "answer_format": "tf",
+      "question": "判断以下陈述是否正确：2025 年我国宠物医疗市场规模为人民币 2786 亿元，占总体的 30.2%。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 51
+      },
+      "time": 1781248747.5032494
+    },
+    {
+      "qid": "res_a_014",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "关于服务消费趋势及芯片市场预测，以下说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 25
+      },
+      "time": 1781248748.5346088
+    },
+    {
+      "qid": "res_a_015",
+      "domain": "research",
+      "answer_format": "mcq",
+      "question": "基于金融机构配置线索及服务消费报告，下列哪项数据描述是准确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 31
+      },
+      "time": 1781248768.0601046
+    },
+    {
+      "qid": "res_a_016",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "根据提供的两份报告，关于 2025 年至 2026 年初的经济与金融趋势，以下哪些描述得到了数据支持？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 51
+      },
+      "time": 1781248785.8686328
+    },
+    {
+      "qid": "res_a_017",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "结合产业前瞻与银行 IT 深度报告，关于 2025 年的市场容量或财务表现，以下哪项陈述是准确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 49
+      },
+      "time": 1781248786.7537515
+    },
+    {
+      "qid": "res_a_018",
+      "domain": "research",
+      "answer_format": "tf",
+      "question": "根据电动车行业策略与车展前瞻报告，2026 年 3 月乘用车新能源渗透率为 51.5%，且 2026 年 1 月宁德时代市占率回升至 25%，该说法是否正确？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 79
+      },
+      "time": 1781248838.6609395
+    },
+    {
+      "qid": "res_a_019",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "基于化工周报与电动车行业策略报告，关于大宗商品价格对行业的影响及估值预测，以下哪些判断是正确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 48
+      },
+      "time": 1781248846.186101
+    },
+    {
+      "qid": "res_a_020",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "综合电动车行业策略与集成电路深度报告，关于技术赛道预测及锂电估值，以下哪些信息是准确的？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 44
+      },
+      "time": 1781248847.116559
+    },
+    {
+      "qid": "ins_a_020",
+      "domain": "insurance",
+      "answer_format": "mcq",
+      "question": "王某投保了平安e生保（有医保）、太保团体百万医疗（有医保）、众安家财险。某日家中水管爆裂造成地板损坏，维修费用8000元；同时王某因修理时不慎摔伤，门诊费用2000元（医保未报销）。以下赔付结果正确的",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 3,
+        "question_len": 102
+      },
+      "time": 1781250647.3754783
+    },
+    {
+      "qid": "reg_a_001",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于《金融机构客户受益所有人识别管理办法》与《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》的实施要求，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 67
+      },
+      "time": 1781250649.671196
+    },
+    {
+      "qid": "reg_a_002",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《中华人民共和国反洗钱法》与《金融机构客户受益所有人识别管理办法》，下列关于金融机构义务的说法中，正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 56
+      },
+      "time": 1781250649.746327
+    },
+    {
+      "qid": "reg_a_003",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "根据相关法规，金融机构在处理上市公司受益所有人身份信息时，因包含照片等敏感数据项，原则上不得在终端设备中存储，确需存储的应当统一规范管理。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 69
+      },
+      "time": 1781250649.8361473
+    },
+    {
+      "qid": "reg_a_004",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于金融机构及银行卡清算机构的报告时限要求，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 31
+      },
+      "time": 1781250649.943813
+    },
+    {
+      "qid": "reg_a_005",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《金融机构客户受益所有人识别管理办法》与《非银行支付机构监督管理条例实施细则》，以下说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 51
+      },
+      "time": 1781250650.0905821
+    },
+    {
+      "qid": "reg_a_006",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "根据相关规定，金融机构对存量高风险非自然人客户的受益所有人识别核实工作应自新规施行之日起 6 个月内完成，且上市公司定期报告在未经董事会审议通过前不得披露。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 78
+      },
+      "time": 1781250651.4814856
+    },
+    {
+      "qid": "reg_a_007",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》与《中华人民共和国反洗钱法》的相关规定，下列说法正确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 61
+      },
+      "time": 1781250651.4865336
+    },
+    {
+      "qid": "reg_a_008",
+      "domain": "regulatory",
+      "answer_format": "mcq",
+      "question": "依据《银行卡清算机构管理办法》和《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》，下列哪项表述符合监管要求？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 60
+      },
+      "time": 1781250651.4965868
+    },
+    {
+      "qid": "reg_a_009",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "结合《中国人民银行业务领域数据安全管理办法》与《金融机构客户尽职调查和客户身份资料及交易记录保存管理办法》，以下说法正确的是？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 63
+      },
+      "time": 1781250651.5013642
+    },
+    {
+      "qid": "reg_a_010",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "按照现行规定，非银行支付机构董事、监事在同一机构内调任职位的，应当于变更完成后 10 日内向所在地人民银行分支机构报告；同时，对于无法按规开展客户尽职调查的金融机构，应当终止已建立的业务关系并向反洗钱",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 115
+      },
+      "time": 1781250651.5064306
+    },
+    {
+      "qid": "reg_a_011",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "根据相关监管规定，下列哪些情形需要履行特定的内部审批程序或满足特定金额门槛？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 38
+      },
+      "time": 1781250654.256681
+    },
+    {
+      "qid": "reg_a_012",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "关于上市公司治理及年度报告编制，以下说法符合规定的有哪些？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 29
+      },
+      "time": 1781250656.106493
+    },
+    {
+      "qid": "reg_a_013",
+      "domain": "regulatory",
+      "answer_format": "tf",
+      "question": "上市公司应当在股东会召开前披露董事候选人，且半年度报告内容应当经上市公司董事会审议通过后方可披露。",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 49
+      },
+      "time": 1781250659.092919
+    },
+    {
+      "qid": "res_a_005",
+      "domain": "research",
+      "answer_format": "multi",
+      "question": "基于消费与保险行业报告，关于经济增长指标及渠道贡献的说法，正确的有？",
+      "answer": "ABCD",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 34
+      },
+      "time": 1781252339.745328
+    }
+  ],
+  "stats": {
+    "total_questions": 0,
+    "retry_count": 0,
+    "retry_success_rate": 0.0
+  }
+}

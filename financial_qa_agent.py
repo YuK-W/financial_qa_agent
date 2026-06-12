@@ -26,6 +26,8 @@ from domain_prompts import DomainPromptBuilder          # P1-1
 from multi_step_reasoning import MultiStepReasoner      # P1-2
 from numerical_calculator import FinancialCalculator    # P1-3
 from evidence_aggregator import EvidenceAggregator      # P1-4
+from context_optimizer import ContextOptimizer           # P2 接入
+from experience import ExperienceManager                # 越用越聪明
 
 
 class FinancialQAAgent:
@@ -53,9 +55,11 @@ class FinancialQAAgent:
         # P1 模块
         self.use_multi_step = use_multi_step
         self.use_b_mode = use_b_mode
-        self.reasoner = MultiStepReasoner(self) if use_multi_step else None
+        self.reasoner = MultiStepReasoner(self)  # 始终创建，复杂题自动启用
         self.calculator = FinancialCalculator()
         self.aggregator = EvidenceAggregator()
+        self.context_optimizer = ContextOptimizer(max_tokens=config.MAX_CONTEXT_TOKENS)
+        self.experience = ExperienceManager()
 
     # ================================================================
     # 主流程
@@ -105,6 +109,12 @@ class FinancialQAAgent:
         # 阶段3: P1-1 领域专用Prompt
         prompt = self._build_domain_prompt(question, options, context, domain)
 
+        # P3增强: 自动检测复杂题 → 启用多轮推理
+        is_complex = self._is_complex_question(question, answer_format, doc_ids)
+        use_ms = self.use_multi_step or is_complex
+        if is_complex and not self.use_multi_step:
+            log.debug(f"自动启用多轮推理 (复杂题)")
+
         # P3-3: 自适应Token预算
         adaptive_max_tokens = config.adaptive_tokens(
             answer_format, question, len(doc_ids)
@@ -112,23 +122,56 @@ class FinancialQAAgent:
         log.debug(f"Token预算: {adaptive_max_tokens} (format={answer_format}, "
                   f"q_len={len(question)}, docs={len(doc_ids)})")
 
-        # P1-2: 多轮推理模式 vs 单轮模式
-        if self.use_multi_step and self.reasoner:
-            # 多轮推理 (3次API调用, Token预算按轮次分配)
+        # 经验: 注入避坑提示
+        avoidance_hints = self.experience.get_avoidance_hints(domain, answer_format)
+        if avoidance_hints:
+            prompt += "\n\n## 特别注意(基于历史经验)\n" + "\n".join(f"- {h}" for h in avoidance_hints)
+
+        # ---- 推理 (单轮, 纠错默认关闭省Token) ----
+        answer = ''
+        confidence = 0.0
+
+        if use_ms and self.reasoner:
             ms_result = self.reasoner.reason_with_verification(
                 question, options, evidences, answer_format
             )
             answer = ms_result['answer']
-            log.debug(f"多轮置信度={ms_result['confidence']:.2f}")
+            confidence = ms_result['confidence']
+            log.debug(f"置信度={confidence:.2f}")
         else:
-            # 单轮推理 (使用自适应预算)
             response = self._call_qwen(prompt, max_tokens=adaptive_max_tokens)
             answer = self._extract_answer_from_response(response, answer_format)
+            confidence = 0.6 if answer else 0.0
+
+        # 经验: 只记录不重试 (省Token)
+        self.experience.record_attempt(qid, 'default', confidence, answer)
+
+        # 经验: 记录 bad case (低置信度)
+        fail_reason = ''
+        if confidence < 0.3:
+            fail_reason = 'low_confidence'
+        elif not answer:
+            fail_reason = 's4_extraction_fail'
+        if fail_reason:
+            self.experience.record_bad_case(
+                qid, domain, answer_format, question, answer,
+                fail_reason,
+                {'doc_count': len(doc_ids), 'question_len': len(question)}
+            )
+        # 经验: 记录成功模式
+        elif confidence >= 0.6:
+            self.experience.record_success(
+                domain, answer_format, 'default',
+                {'doc_count': len(doc_ids), 'question_len': len(question)}
+            )
+
+        # 持久化经验
+        self.experience.save()
 
         # P1-3: 数值验算
         answer = self._verify_numeric(answer, question, options, evidences)
 
-        # 阶段5: 验证答案格式
+        # 验证答案格式
         validated_answer = self._validate_answer(answer, answer_format)
 
         return {
@@ -145,6 +188,19 @@ class FinancialQAAgent:
     # ================================================================
     # P1-5 B榜: 无doc_ids时全领域检索
     # ================================================================
+    @staticmethod
+    def _is_complex_question(question: str, answer_format: str, doc_ids: list) -> bool:
+        """自动检测复杂题: 多选+多文档+长题干+计算关键词 → 启用多轮推理"""
+        score = 0
+        if answer_format == 'multi': score += 2
+        if len(doc_ids) > 1: score += 2
+        if len(question) > 80: score += 1
+        for kw in ['计算','比例','增长','下降','多少','合计','约为','比较','差异']:
+            if kw in question:
+                score += 1
+                break
+        return score >= 5  # 高阈值: 基本关闭自动多轮, 省Token+速度
+
     def _resolve_doc_ids_b_mode(self, domain: str) -> List[str]:
         """B榜模式: 根据domain获取该领域所有可用文档ID"""
         raw_dir = config.get_raw_path(domain)
@@ -346,6 +402,19 @@ class FinancialQAAgent:
             if os.path.exists(txt_sub_path):
                 return txt_sub_path
 
+            # 1d: attachments/ 子目录 (regulatory csrc_*_att* 附件)
+            att_path = os.path.join(domain_dir, "attachments", f"{doc_id}.pdf")
+            if os.path.exists(att_path):
+                return att_path
+            att_txt_path = os.path.join(domain_dir, "attachments", f"{doc_id}.txt")
+            if os.path.exists(att_txt_path):
+                return att_txt_path
+
+            # 1e: html/ 子目录
+            html_path = os.path.join(domain_dir, "html", f"{doc_id}.html")
+            if os.path.exists(html_path):
+                return html_path
+
         # 策略2：兜底 —— doc_id 作为子目录名
         # 部分数据集文件结构为 raw/{doc_id}/{doc_id}.pdf
         fallback_path = os.path.join(config.raw_dir, doc_id, f"{doc_id}.pdf")
@@ -365,10 +434,16 @@ class FinancialQAAgent:
             文本内容字符串，读取失败返回空字符串
         """
         try:
-            # TXT 文件直接读取
-            if file_path.endswith('.txt'):
+            # TXT/HTML 文件直接读取
+            if file_path.endswith('.txt') or file_path.endswith('.html'):
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    return f.read()
+                    text = f.read()
+                # 简单去除 HTML 标签
+                if file_path.endswith('.html'):
+                    import re
+                    text = re.sub(r'<[^>]+>', '', text)
+                    text = re.sub(r'\s+', ' ', text)
+                return text
 
             # PDF 文件（解析阶段不计Token，全量读取）
             import pdfplumber
@@ -457,25 +532,24 @@ class FinancialQAAgent:
     # ================================================================
     def _build_context(self, evidences: List[Dict]) -> str:
         """
-        将证据片段拼接为上下文。
-        每个证据标注文档来源，按相关度排序。
+        P2接入: 使用 ContextOptimizer 按 Token 预算动态选择证据。
+        替代原来的暴力字符截断。
         """
         if not evidences:
             return "未找到相关文档内容。"
 
+        # ContextOptimizer 按 relevance 排序 + token 预算动态截断
+        optimized = self.context_optimizer.optimize_context(evidences, "")
+        if not optimized:
+            return "未找到相关文档内容。"
+
         context_parts = []
-        for i, ev in enumerate(evidences, 1):
+        for i, ev in enumerate(optimized, 1):
             doc_id = ev.get('doc_id', 'unknown')
             content = ev.get('content', '')
             context_parts.append(f"【证据{i} - 来源: {doc_id}】\n{content}")
 
-        context = '\n\n---\n\n'.join(context_parts)
-
-        # 限制总长度
-        if len(context) > config.MAX_CONTEXT_CHARS:
-            context = context[:config.MAX_CONTEXT_CHARS] + '\n\n... [上下文已截断]'
-
-        return context
+        return '\n\n---\n\n'.join(context_parts)
 
     # P1-1: 领域专用Prompt（替代原 _build_dynamic_prompt + _get_domain_tips）
     def _build_domain_prompt(self, question: str, options: Dict[str, str],

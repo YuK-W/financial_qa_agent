@@ -90,33 +90,33 @@ class ABenchmark:
             all_questions = all_questions[:2]
             print("[DRY RUN] Only first 2 questions")
 
-        # 逐领域处理（利用批处理共享文档索引）
+        # 逐领域处理
+        self._process_questions(all_questions)
+
+        # 生成结果
+        self._print_stats()
+        self._generate_csv()
+
+    def _process_questions(self, questions: List[Dict]):
+        """P3辅助: 逐领域逐题处理 (支持分批调用)"""
         domain_questions = defaultdict(list)
-        for q in all_questions:
+        for q in questions:
             domain_questions[q.get('domain', 'financial_contracts')].append(q)
 
-        for domain, questions in domain_questions.items():
+        for domain, qs in domain_questions.items():
             domain_name = config.DOMAIN_NAMES.get(domain, domain)
             print(f"\n{'='*60}")
-            print(f"领域: {domain_name} ({len(questions)} 题)")
+            print(f"领域: {domain_name} ({len(qs)} 题)")
             print(f"{'='*60}")
 
-            # 预加载该领域所有涉及的文档
-            doc_ids = set()
-            for q in questions:
-                doc_ids.update(q.get('doc_ids', []))
-
-            # 领域内逐题处理
-            for q in tqdm(questions, desc=f"  {domain_name}"):
+            for q in tqdm(qs, desc=f"  {domain_name}"):
                 try:
                     result = self.agent.answer_question(q)
                     result['domain'] = domain
                     result['expected'] = q.get('answer', '')
                     self.results.append(result)
-
                     self.total_prompt_tokens += result['prompt_tokens']
                     self.total_completion_tokens += result['completion_tokens']
-
                 except Exception as e:
                     log.error(f"{q.get('qid', '?')} failed: {e}")
                     self.results.append({
@@ -129,10 +129,6 @@ class ABenchmark:
                         'expected': q.get('answer', ''),
                         'error': str(e),
                     })
-
-        # 生成结果
-        self._print_stats()
-        self._generate_csv()
 
     def _print_stats(self):
         """输出准确率和 Token 统计"""
@@ -250,13 +246,33 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="A榜全量测试")
     parser.add_argument("--dry-run", action="store_true",
                         help="只跑前2题验证流程")
+    parser.add_argument("--domain", type=str, default=None,
+                        choices=['financial_contracts', 'financial_reports',
+                                 'insurance', 'regulatory', 'research'],
+                        help="只跑指定领域 (支持分批运行)")
+    parser.add_argument("--start-from", type=int, default=0,
+                        help="从第N题开始 (用于断点续跑)")
     args = parser.parse_args()
 
     start = time.time()
 
     agent = FinancialQAAgent()
     benchmark = ABenchmark(agent)
-    benchmark.run(dry_run=args.dry_run)
+
+    if args.domain:
+        # 单领域模式
+        questions = benchmark.load_all_questions()
+        questions = [q for q in questions if q.get('domain') == args.domain]
+        if args.start_from > 0:
+            questions = questions[args.start_from:]
+            print(f"从第{args.start_from}题开始，剩余{len(questions)}题")
+        print(f"单领域模式: {config.DOMAIN_NAMES.get(args.domain, args.domain)} {len(questions)}题")
+        # 复用 run 的核心逻辑但只跑这批题
+        benchmark._process_questions(questions)
+        benchmark._print_stats()
+        benchmark._generate_csv()
+    else:
+        benchmark.run(dry_run=args.dry_run)
 
     elapsed = time.time() - start
     print(f"\nTotal time: {elapsed:.0f}s ({elapsed/60:.1f}m)")

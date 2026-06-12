@@ -221,29 +221,23 @@ class FinancialQAAgent:
             from retrieval_system import FinancialRetrievalSystem
             self.retrieval_system = FinancialRetrievalSystem()
 
-        # 按领域分组 doc_ids（同一领域共享一个索引目录）
-        domain_groups: Dict[str, List[str]] = {}
+        # 按实际文件路径分组（不依赖 doc_id+目录拼接，兼容 txt/attachments 等子目录）
+        file_paths: List[str] = []
+        new_ids: List[str] = []
         for doc_id in doc_ids:
             if doc_id in self._indexed_doc_ids:
                 continue
-            # 找到该文档所属的领域
-            pdf_path = self._find_pdf_path(doc_id)
-            if not pdf_path:
+            actual_path = self._find_pdf_path(doc_id)
+            if not actual_path:
+                log.warning(f"文档未找到: {doc_id}")
                 continue
-            # 从路径中提取领域名: raw/{domain}/{doc_id}.pdf
-            for domain in config.DOMAINS:
-                if f"/{domain}/" in pdf_path.replace("\\", "/"):
-                    if domain not in domain_groups:
-                        domain_groups[domain] = []
-                    domain_groups[domain].append(doc_id)
-                    break
+            file_paths.append(actual_path)
+            new_ids.append(doc_id)
 
-        # 按领域索引
-        for domain, ids in domain_groups.items():
-            docs_dir = config.get_raw_path(domain)
-            log.debug(f"索引 {domain}: {len(ids)} docs ({', '.join(ids)})")
-            self.retrieval_system.index_documents(docs_dir, ids)
-            self._indexed_doc_ids.update(ids)
+        if file_paths:
+            log.debug(f"索引 {len(file_paths)} 文档")
+            self.retrieval_system.index_files(file_paths)
+            self._indexed_doc_ids.update(new_ids)
 
     def _retrieve_evidences(self, doc_ids: List[str], question: str,
                             options: Dict[str, str],
@@ -555,18 +549,25 @@ class FinancialQAAgent:
             return ''
 
         # ================================================================
-        # S1: "正确答案：X" 显式声明（最可靠）
+        # S1: 显式答案声明（覆盖更多中文/英文变体）
         # ================================================================
-        # 匹配模式:
-        #   "正确答案：A"  "正确答案: ABC"  "正确答案是 B"
-        #   "最终答案：CD" "答案：A"       "**答案：B**"
-        #   "Answer: A"   "answer: CD"    (英文响应兼容)
         s1_patterns = [
-            r'正确答案[：:\s是]+\s*([A-D]+)',
-            r'最终答案[：:\s是]+\s*([A-D]+)',
-            r'(?:^|\n)\s*答案[：:\s是]+\s*([A-D]+)',
+            # 中文: "正确答案：X" / "正确答案是 X" / "正确选项为 X"
+            r'正确答案[：:\s是为]+\s*([A-D]+)',
+            r'正确选项[：:\s是为]+\s*([A-D]+)',
+            r'最终答案[：:\s是为]+\s*([A-D]+)',
+            # 中文: "答案：X" / "答案为 X"
+            r'(?:^|\n)\s*答案[：:\s是为]+\s*([A-D]+)',
+            # Markdown: **答案：X**
             r'\*\*答案[：:\s]*\*\*\s*([A-D]+)',
-            r'(?i)\banswer\s*[：:\s]+\s*([A-D]+)',
+            r'\*\*正确答案[：:\s]*\*\*\s*([A-D]+)',
+            # 英文: "Answer: X" / "answer is X"
+            r'(?i)\banswer\s*(?:is\s*)?[：:\s]+\s*([A-D]+)',
+            # 总结句: "因此答案为X" / "综上，选择X"
+            r'[因此综上]+[，,]?\s*答案[：:\s是为]+\s*([A-D]+)',
+            r'[因此综上]+[，,]?\s*[应选该]*选择\s*([A-D]+)',
+            # 末尾行: 单独一行的 "A" 或 "AB" (在分析文本末尾)
+            r'(?:^|\n)\s*([A-D]{1,4})\s*$',
         ]
         for pattern in s1_patterns:
             match = re.search(pattern, response, re.IGNORECASE | re.MULTILINE)
@@ -600,17 +601,22 @@ class FinancialQAAgent:
                     correct_opts.append(opt)
                     break
             else:
-                # 宽松匹配：看该选项段落整体倾向
+                # 宽松匹配1: 看选项段落整体倾向
                 block_match = re.search(
-                    rf'{opt}\s*选项[^A-D]*?(?={chr(ord(opt)+1)}\s*选项|正确答案|最终答案|$)',
+                    rf'{opt}\s*[选项]?[^A-D]*?(?={chr(ord(opt)+1)}\s*[选项]?|正确答案|正确选项|最终答案|答案|综上|因此|$)',
                     response, re.DOTALL
                 )
                 if block_match:
                     block = block_match.group()
-                    pos_words = len(re.findall(r'正确|✓|✅|符合|一致|是对的', block))
-                    neg_words = len(re.findall(r'错误|✗|❌|不符合|不一致|是不对的', block))
+                    pos_words = len(re.findall(r'正确|✓|符合|一致|是对的|为真|无误', block))
+                    neg_words = len(re.findall(r'错误|不符合|不一致|是不对的|为假|有误|不正确', block))
                     if pos_words > neg_words:
                         correct_opts.append(opt)
+                        continue
+                # 宽松匹配2: "{opt}. {option_text}" 后面跟 "正确" 或 "对"
+                opt_text = response.split(f'{opt}.')[1][:200] if f'{opt}.' in response else ''
+                if opt_text and re.search(r'(?:是)?正确的|是对的|无误', opt_text[:100]):
+                    correct_opts.append(opt)
 
         if correct_opts:
             answer = ''.join(sorted(set(correct_opts)))
@@ -620,28 +626,41 @@ class FinancialQAAgent:
             return answer
 
         # ================================================================
-        # S3: 字母频率统计（适用于模型直接输出字母的简短响应）
+        # S3: 字母频率统计
         # ================================================================
-        # 从最后一段或最后 200 字符中集中提取
-        tail = response[-200:] if len(response) > 200 else response
+        # S3a: 先找末尾独立行中的字母（如分析后单独一行 "A" 或 "AB"）
+        lines = response.strip().split('\n')
+        for line in reversed(lines):
+            line = line.strip()
+            # 纯字母行: "A" / "AB" / "A B" → "AB"
+            m = re.match(r'^[A-D\s]{1,7}$', line)
+            if m and re.search(r'[A-D]', line):
+                letters = re.findall(r'[A-D]', line)
+                if len(letters) <= 4:
+                    answer = ''.join(letters)
+                    log.debug(f"答案提取-S3a: '{answer}' (isolated line)")
+                    if answer_format in ('mcq', 'tf'):
+                        return answer[0]
+                    return ''.join(sorted(set(answer)))
+
+        # S3b: 全文末尾200字符的 A-D 字母
+        tail = response[-300:] if len(response) > 300 else response
         all_letters = re.findall(r'[A-D]', tail.upper())
 
         if all_letters:
             if answer_format in ('mcq', 'tf'):
-                # 单选/判断：取最后出现的单个字母
                 answer = all_letters[-1]
-                log.debug(f"答案提取-S3: '{answer}' (tail)")
+                log.debug(f"答案提取-S3b: '{answer}' (tail letter)")
                 return answer
             else:
-                # 多选：取去重排序后的所有字母
                 answer = ''.join(sorted(set(all_letters)))
-                log.debug(f"答案提取-S3: '{answer}' (freq)")
+                log.debug(f"答案提取-S3b: '{answer}' (freq)")
                 return answer
 
         # ================================================================
-        # S4: Fallback
+        # S4: Fallback — 记录原始响应用于排查
         # ================================================================
-        log.warning("答案提取-S4: 无法提取")
+        log.warning(f"答案提取-S4: 无法提取. response[:200]={response[:200]}")
         return ''
 
     def _validate_answer(self, answer: str, answer_format: str) -> str:

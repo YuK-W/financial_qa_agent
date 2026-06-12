@@ -71,6 +71,52 @@ class FinancialRetrievalSystem:
         print(f"索引完成: {len(self.chunks)} 个块, {len(self.keyword_index)} 个关键词")
         return len(self.chunks)
 
+    def index_files(self, file_paths: List[str]) -> int:
+        """
+        按实际文件路径索引（兼容 txt/pdf/attachments 等非标准目录结构）。
+
+        Args:
+            file_paths: 实际文件路径列表
+        Returns:
+            新增的块数量
+        """
+        if not file_paths:
+            return 0
+
+        new_chunks = 0
+        for file_path in file_paths:
+            if not os.path.exists(file_path):
+                print(f"  警告: 未找到 {file_path}")
+                continue
+
+            doc_id = os.path.splitext(os.path.basename(file_path))[0]
+            print(f"  索引: {doc_id}")
+
+            text = self._extract_pdf_text(file_path)
+            if not text:
+                continue
+
+            chunks = self._chunk_text(text, doc_id)
+            for chunk in chunks:
+                chunk_id = f"{doc_id}_{len(self.chunks)}"
+                chunk['id'] = chunk_id
+                chunk['doc_id'] = doc_id
+                self.chunks.append(chunk)
+                new_chunks += 1
+
+                for kw in chunk['keywords']:
+                    self.keyword_index[kw].append(chunk_id)
+                for entity_type, entity_value in chunk['entities']:
+                    self.entity_index[(entity_type, entity_value)].append(chunk_id)
+
+        # 重建 BM25 索引
+        if self.chunks:
+            self.tokenized_chunks = [self._tokenize(chunk['content']) for chunk in self.chunks]
+            self.bm25_index = BM25Okapi(self.tokenized_chunks)
+
+        print(f"索引完成: +{new_chunks} 块, 总计 {len(self.chunks)} 块")
+        return new_chunks
+
     # ================================================================
     # P3-1: 领域特定智能分块
     # ================================================================
@@ -289,10 +335,15 @@ class FinancialRetrievalSystem:
                 chunks.append(self._create_chunk(item['article'], doc_id, len(chunks)))
         return chunks if chunks else self._chunk_text(parsed_doc.get('raw_text', ''), doc_id)
 
-    def _extract_pdf_text(self, pdf_path: str) -> str:
-        """提取PDF文本（解析阶段不计Token，全量读取）"""
+    def _extract_pdf_text(self, file_path: str) -> str:
+        """提取PDF/TXT文本（解析阶段不计Token，全量读取）"""
         try:
-            with pdfplumber.open(pdf_path) as pdf:
+            # TXT 文件直接读取
+            if file_path.endswith('.txt'):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+
+            with pdfplumber.open(file_path) as pdf:
                 text = ''
                 total_pages = len(pdf.pages)
                 max_pages = cfg.MAX_PDF_PAGES if cfg.MAX_PDF_PAGES > 0 else total_pages

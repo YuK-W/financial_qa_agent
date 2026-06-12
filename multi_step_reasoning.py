@@ -33,7 +33,11 @@ class MultiStepReasoner:
         self, question: str, options: Dict[str, str],
         evidences: List[Dict], answer_format: str, rounds: int = 3
     ) -> Dict[str, Any]:
-        """同一问题独立推理N次，取多数答案。"""
+        """同一问题独立推理N次，取多数答案。
+
+        单选/判断: 取最常见的完整答案
+        多选: 每个选项独立计数，只保留出现>=半数轮次的选项（防止ABCD拼凑）
+        """
         from collections import Counter
         answers = []
         for i in range(rounds):
@@ -42,15 +46,29 @@ class MultiStepReasoner:
                 answers.append(result['answer'])
         if not answers:
             return self._empty_result()
-        # 取多数
-        counter = Counter(answers)
-        winner = counter.most_common(1)[0][0]
-        confidence = counter[winner] / len(answers)
+
+        if answer_format == 'multi':
+            # 多选: 逐选项独立投票
+            opt_votes = Counter()
+            for ans in answers:
+                for ch in ans:
+                    if ch in 'ABCD':
+                        opt_votes[ch] += 1
+            # 只保留出现 >= 半数轮次的选项
+            threshold = max(1, rounds // 2)
+            winner = ''.join(sorted(ch for ch, cnt in opt_votes.items() if cnt > threshold))
+            confidence = sum(opt_votes.values()) / (len(answers) * max(len(winner), 1))
+        else:
+            # 单选/判断: 完整答案投票
+            counter = Counter(answers)
+            winner = counter.most_common(1)[0][0]
+            confidence = counter[winner] / len(answers)
+
         return {
             'answer': winner,
-            'reasoning': f'Majority vote: {dict(counter)}, winner={winner}',
-            'verified': confidence >= 0.67,
-            'confidence': confidence,
+            'reasoning': f'Vote({rounds}r): answers={answers}, winner={winner}',
+            'verified': confidence >= 0.5,
+            'confidence': min(confidence, 1.0),
             'rounds': rounds,
         }
 

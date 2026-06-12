@@ -132,13 +132,12 @@ class FinancialQAAgent:
         confidence = 0.0
 
         if use_ms and self.reasoner:
-            # ⑦ 多数投票: 同一问题独立推理3次取多数
-            ms_result = self.reasoner.majority_vote(
-                question, options, evidences, answer_format, rounds=3
+            ms_result = self.reasoner.reason_with_verification(
+                question, options, evidences, answer_format
             )
             answer = ms_result['answer']
             confidence = ms_result['confidence']
-            log.debug(f"多数投票置信度={confidence:.2f}")
+            log.debug(f"多轮推理置信度={confidence:.2f}")
         else:
             response = self._call_qwen(prompt, max_tokens=adaptive_max_tokens)
             answer = self._extract_answer_from_response(response, answer_format)

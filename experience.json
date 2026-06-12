@@ -1,146 +1,187 @@
 {
   "low_confidence": {
     "fin_a_001": [
+      "default",
       "default"
     ],
     "fin_a_002": [
+      "default",
       "default"
     ],
     "fin_a_003": [
+      "default",
       "default"
     ],
     "fin_a_004": [
+      "default",
       "default"
     ],
     "fin_a_005": [
+      "default",
       "default"
     ],
     "fin_a_006": [
+      "default",
       "default"
     ],
     "fin_a_007": [
+      "default",
       "default"
     ],
     "fin_a_008": [
+      "default",
       "default"
     ],
     "fin_a_009": [
+      "default",
       "default"
     ],
     "fin_a_010": [
+      "default",
       "default"
     ],
     "fin_a_011": [
+      "default",
       "default"
     ],
     "fin_a_012": [
+      "default",
       "default"
     ],
     "fin_a_013": [
+      "default",
       "default"
     ],
     "fin_a_014": [
+      "default",
       "default"
     ],
     "fin_a_015": [
+      "default",
       "default"
     ],
     "fin_a_016": [
+      "default",
       "default"
     ],
     "fin_a_017": [
+      "default",
       "default"
     ],
     "fin_a_018": [
+      "default",
       "default"
     ],
     "fin_a_019": [
+      "default",
       "default"
     ],
     "fin_a_020": [
+      "default",
       "default"
     ],
     "ins_a_001": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_002": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_003": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_004": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_005": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_006": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_007": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_008": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_009": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_010": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_011": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_012": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_013": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_014": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_015": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_016": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_017": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_018": [
       "default",
+      "default",
       "default"
     ],
     "ins_a_019": [
+      "default",
       "default",
       "default"
     ],
     "ins_a_020": [
       "default",
+      "default",
       "default"
     ],
     "reg_a_001": [
+      "default",
       "default",
       "default",
       "default"
@@ -148,9 +189,11 @@
     "reg_a_002": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_003": [
+      "default",
       "default",
       "default",
       "default"
@@ -158,9 +201,11 @@
     "reg_a_004": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_005": [
+      "default",
       "default",
       "default",
       "default"
@@ -168,9 +213,11 @@
     "reg_a_006": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_007": [
+      "default",
       "default",
       "default",
       "default"
@@ -178,9 +225,11 @@
     "reg_a_008": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_009": [
+      "default",
       "default",
       "default",
       "default"
@@ -188,9 +237,11 @@
     "reg_a_010": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_011": [
+      "default",
       "default",
       "default",
       "default"
@@ -198,9 +249,11 @@
     "reg_a_012": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_013": [
+      "default",
       "default",
       "default",
       "default"
@@ -208,9 +261,11 @@
     "reg_a_014": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_015": [
+      "default",
       "default",
       "default",
       "default"
@@ -218,9 +273,11 @@
     "reg_a_018": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "reg_a_020": [
+      "default",
       "default",
       "default",
       "default"
@@ -228,9 +285,11 @@
     "res_a_001": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_002": [
+      "default",
       "default",
       "default",
       "default"
@@ -238,9 +297,11 @@
     "res_a_003": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_004": [
+      "default",
       "default",
       "default",
       "default"
@@ -248,9 +309,11 @@
     "res_a_005": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_006": [
+      "default",
       "default",
       "default",
       "default"
@@ -258,9 +321,11 @@
     "res_a_007": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_008": [
+      "default",
       "default",
       "default",
       "default"
@@ -268,9 +333,11 @@
     "res_a_009": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_010": [
+      "default",
       "default",
       "default",
       "default"
@@ -278,9 +345,11 @@
     "res_a_011": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_012": [
+      "default",
       "default",
       "default",
       "default"
@@ -288,9 +357,11 @@
     "res_a_013": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_014": [
+      "default",
       "default",
       "default",
       "default"
@@ -298,35 +369,104 @@
     "res_a_015": [
       "default",
       "default",
+      "default",
       "default"
     ],
     "res_a_016": [
+      "default",
       "default",
       "default"
     ],
     "res_a_017": [
       "default",
+      "default",
       "default"
     ],
     "res_a_018": [
+      "default",
       "default",
       "default"
     ],
     "res_a_019": [
       "default",
+      "default",
       "default"
     ],
     "res_a_020": [
       "default",
+      "default",
       "default"
     ],
     "reg_a_016": [
+      "default",
       "default"
     ],
     "reg_a_017": [
+      "default",
       "default"
     ],
     "reg_a_019": [
+      "default",
+      "default"
+    ],
+    "fc_a_001": [
+      "default"
+    ],
+    "fc_a_002": [
+      "default"
+    ],
+    "fc_a_003": [
+      "default"
+    ],
+    "fc_a_004": [
+      "default"
+    ],
+    "fc_a_005": [
+      "default"
+    ],
+    "fc_a_006": [
+      "default"
+    ],
+    "fc_a_007": [
+      "default"
+    ],
+    "fc_a_008": [
+      "default"
+    ],
+    "fc_a_009": [
+      "default"
+    ],
+    "fc_a_010": [
+      "default"
+    ],
+    "fc_a_011": [
+      "default"
+    ],
+    "fc_a_012": [
+      "default"
+    ],
+    "fc_a_013": [
+      "default"
+    ],
+    "fc_a_014": [
+      "default"
+    ],
+    "fc_a_015": [
+      "default"
+    ],
+    "fc_a_016": [
+      "default"
+    ],
+    "fc_a_017": [
+      "default"
+    ],
+    "fc_a_018": [
+      "default"
+    ],
+    "fc_a_019": [
+      "default"
+    ],
+    "fc_a_020": [
       "default"
     ]
   },
@@ -419,6 +559,102 @@
           "question_len": 47
         },
         "time": 1781248138.2318578
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781259020.1778724
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 52
+        },
+        "time": 1781259389.3540761
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 50
+        },
+        "time": 1781259449.954888
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781259571.605746
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 43
+        },
+        "time": 1781259779.2804286
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 43
+        },
+        "time": 1781259898.7796228
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781259960.1240163
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 44
+        },
+        "time": 1781260058.9288046
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 53
+        },
+        "time": 1781260214.3767247
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781260279.9133086
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 42
+        },
+        "time": 1781260409.558205
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 47
+        },
+        "time": 1781260475.0009964
       }
     ],
     "financial_reports_tf": [
@@ -461,6 +697,30 @@
           "question_len": 59
         },
         "time": 1781248069.0511467
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 100
+        },
+        "time": 1781259228.6661737
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 71
+        },
+        "time": 1781259839.597336
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 52
+        },
+        "time": 1781259997.923345
       }
     ],
     "financial_reports_mcq": [
@@ -479,6 +739,22 @@
           "question_len": 48
         },
         "time": 1781248003.874986
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781259634.995802
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 48
+        },
+        "time": 1781260150.6948662
       }
     ],
     "insurance_mcq": [
@@ -569,6 +845,46 @@
           "question_len": 56
         },
         "time": 1781249700.2532873
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 170
+        },
+        "time": 1781260565.4724102
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 132
+        },
+        "time": 1781260714.5957348
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 34
+        },
+        "time": 1781260759.7097137
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 56
+        },
+        "time": 1781261339.5507867
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 102
+        },
+        "time": 1781261757.1437042
       }
     ],
     "insurance_multi": [
@@ -675,6 +991,110 @@
           "question_len": 66
         },
         "time": 1781249920.8445058
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 20
+        },
+        "time": 1781260820.0399623
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 18
+        },
+        "time": 1781260940.3558555
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 27
+        },
+        "time": 1781261004.2177079
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 3,
+          "question_len": 90
+        },
+        "time": 1781261085.6323998
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 38
+        },
+        "time": 1781261149.9461596
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 81
+        },
+        "time": 1781261213.3117392
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 55
+        },
+        "time": 1781261272.1862361
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 31
+        },
+        "time": 1781261397.1095102
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 50
+        },
+        "time": 1781261453.783609
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 38
+        },
+        "time": 1781261524.5391614
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 57
+        },
+        "time": 1781261582.8616972
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 20
+        },
+        "time": 1781261642.5888352
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 4,
+          "question_len": 66
+        },
+        "time": 1781261698.1008332
       }
     ],
     "regulatory_multi": [
@@ -797,6 +1217,94 @@
           "question_len": 42
         },
         "time": 1781252081.823885
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 67
+        },
+        "time": 1781261829.2990212
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 56
+        },
+        "time": 1781261897.7889695
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781261982.6571891
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781262038.879492
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 61
+        },
+        "time": 1781262140.4957163
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 63
+        },
+        "time": 1781262221.2956376
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 38
+        },
+        "time": 1781262342.292331
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 29
+        },
+        "time": 1781262405.8170438
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 41
+        },
+        "time": 1781262498.496344
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781262652.6924813
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 47
+        },
+        "time": 1781262748.5412328
       }
     ],
     "regulatory_mcq": [
@@ -823,6 +1331,22 @@
           "question_len": 54
         },
         "time": 1781251948.7779949
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 60
+        },
+        "time": 1781262161.1433258
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 54
+        },
+        "time": 1781262523.5743737
       }
     ],
     "regulatory_tf": [
@@ -873,6 +1397,46 @@
           "question_len": 72
         },
         "time": 1781252036.8488905
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 69
+        },
+        "time": 1781261919.6877031
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 78
+        },
+        "time": 1781262080.8236828
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 115
+        },
+        "time": 1781262274.8390355
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 49
+        },
+        "time": 1781262431.7570949
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 72
+        },
+        "time": 1781262691.7289538
       }
     ],
     "research_multi": [
@@ -1035,6 +1599,102 @@
           "question_len": 44
         },
         "time": 1781252913.2979596
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 36
+        },
+        "time": 1781262818.6809735
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 33
+        },
+        "time": 1781262881.6393595
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781262972.027509
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781263045.4452157
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 32
+        },
+        "time": 1781263167.4275076
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 27
+        },
+        "time": 1781263235.0539205
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781263318.0485518
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 28
+        },
+        "time": 1781263378.0629017
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 25
+        },
+        "time": 1781263455.0272846
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 49
+        },
+        "time": 1781263606.6389556
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 48
+        },
+        "time": 1781263709.1734595
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 44
+        },
+        "time": 1781263770.265781
       }
     ],
     "research_tf": [
@@ -1109,6 +1769,46 @@
           "question_len": 79
         },
         "time": 1781252871.1050935
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 57
+        },
+        "time": 1781262911.838518
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 85
+        },
+        "time": 1781263108.7147658
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 53
+        },
+        "time": 1781263261.3227346
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781263395.6163206
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 79
+        },
+        "time": 1781263646.276168
       }
     ],
     "research_mcq": [
@@ -1143,6 +1843,180 @@
           "question_len": 31
         },
         "time": 1781252673.3750906
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 30
+        },
+        "time": 1781263179.446305
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781263477.4972928
+      }
+    ],
+    "financial_contracts_multi": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 47
+        },
+        "time": 1781256173.9484653
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 29
+        },
+        "time": 1781256336.7670531
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781256545.051471
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781256856.4496078
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 51
+        },
+        "time": 1781257322.375882
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781257569.7701466
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 36
+        },
+        "time": 1781257664.555735
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 27
+        },
+        "time": 1781257955.3142958
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781258170.254673
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 39
+        },
+        "time": 1781258378.2199898
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 31
+        },
+        "time": 1781258484.3430912
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781258677.7541008
+      }
+    ],
+    "financial_contracts_tf": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 35
+        },
+        "time": 1781256415.4150565
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 63
+        },
+        "time": 1781257106.0352716
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 74
+        },
+        "time": 1781257420.6813052
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 90
+        },
+        "time": 1781257759.110492
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 42
+        },
+        "time": 1781258397.8881452
+      }
+    ],
+    "financial_contracts_mcq": [
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 63
+        },
+        "time": 1781257238.4097288
+      },
+      {
+        "strategy": "default",
+        "features": {
+          "doc_count": 2,
+          "question_len": 34
+        },
+        "time": 1781257979.0724216
       }
     ]
   },
@@ -1991,6 +2865,32 @@
         "question_len": 34
       },
       "time": 1781252339.745328
+    },
+    {
+      "qid": "ins_a_006",
+      "domain": "insurance",
+      "answer_format": "mcq",
+      "question": "王某投保了平安e生保（计划一：免赔额1万元，家庭共享）和太保团体百万医疗（免赔额1万元）。王某家庭三人同时参保e生保计划一，共享免赔额。某年度，王某本人发生医疗费用2万元（全部属保险责任），医保报销8",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 162
+      },
+      "time": 1781260878.757923
+    },
+    {
+      "qid": "reg_a_020",
+      "domain": "regulatory",
+      "answer_format": "multi",
+      "question": "依据相关准则与规定，关于半年度报告的编制要求及监管规定的生效时点，下列描述准确的有？",
+      "answer": "",
+      "fail_reason": "low_confidence",
+      "features": {
+        "doc_count": 2,
+        "question_len": 42
+      },
+      "time": 1781262754.7695706
     }
   ],
   "stats": {

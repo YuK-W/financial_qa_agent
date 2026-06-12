@@ -132,12 +132,13 @@ class FinancialQAAgent:
         confidence = 0.0
 
         if use_ms and self.reasoner:
-            ms_result = self.reasoner.reason_with_verification(
-                question, options, evidences, answer_format
+            # ⑦ 多数投票: 同一问题独立推理3次取多数
+            ms_result = self.reasoner.majority_vote(
+                question, options, evidences, answer_format, rounds=3
             )
             answer = ms_result['answer']
             confidence = ms_result['confidence']
-            log.debug(f"置信度={confidence:.2f}")
+            log.debug(f"多数投票置信度={confidence:.2f}")
         else:
             response = self._call_qwen(prompt, max_tokens=adaptive_max_tokens)
             answer = self._extract_answer_from_response(response, answer_format)
@@ -199,7 +200,7 @@ class FinancialQAAgent:
             if kw in question:
                 score += 1
                 break
-        return score >= 5  # 高阈值: 基本关闭自动多轮, 省Token+速度
+        return score >= 3  # ⑥ 多选+多文档自动多轮推理
 
     def _resolve_doc_ids_b_mode(self, domain: str) -> List[str]:
         """B榜模式: 根据domain获取该领域所有可用文档ID"""
@@ -319,16 +320,44 @@ class FinancialQAAgent:
         # 尝试使用检索系统（如果已提供）
         if self.retrieval_system and self.retrieval_system.chunks:
             try:
+                # 主检索: 问题+全部选项
                 results = self.retrieval_system.retrieve(
                     question, options, top_k=config.RETRIEVAL_TOP_K
                 )
+                seen_ids = set()
                 for r in results:
-                    evidences.append({
-                        'doc_id': r.get('doc_id', 'unknown'),
-                        'content': r.get('content', ''),
-                        'relevance': r.get('relevance', 0)
-                    })
-                log.debug(f"检索系统: {len(evidences)} 证据")
+                    # ⑤ 表格加权: 表格内容 relevance 翻倍
+                    r_chunk = r if isinstance(r, dict) else {'content': r, 'relevance': 0}
+                    if 'type' in r_chunk and r_chunk.get('type') == 'table':
+                        r_chunk['relevance'] = r_chunk.get('relevance', 0) * config.TABLE_WEIGHT_BOOST
+                    cid = r_chunk.get('content', '')[:100]
+                    if cid not in seen_ids:
+                        seen_ids.add(cid)
+                        evidences.append({
+                            'doc_id': r_chunk.get('doc_id', 'unknown'),
+                            'content': r_chunk.get('content', ''),
+                            'relevance': r_chunk.get('relevance', 0)
+                        })
+
+                # ③ 选项反向检索: 每个选项单独搜
+                for opt_key, opt_text in options.items():
+                    opt_results = self.retrieval_system.retrieve(
+                        opt_text, {}, top_k=5
+                    )
+                    for r in opt_results:
+                        rc = r if isinstance(r, dict) else {'content': r, 'relevance': 0}
+                        cid = rc.get('content', '')[:100]
+                        if cid not in seen_ids:
+                            seen_ids.add(cid)
+                            evidences.append({
+                                'doc_id': rc.get('doc_id', 'unknown'),
+                                'content': rc.get('content', ''),
+                                'relevance': rc.get('relevance', 0) + 1  # 选项直搜+1
+                            })
+
+                # 去重排序
+                evidences.sort(key=lambda x: x.get('relevance', 0), reverse=True)
+                log.debug(f"检索: {len(evidences)} 证据(含选项反向)")
                 return evidences[:config.EVIDENCE_MAX_TOTAL]
             except Exception as e:
                 log.warning(f"检索异常回退关键词: {e}")

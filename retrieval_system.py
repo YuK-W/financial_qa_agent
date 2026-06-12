@@ -3,6 +3,18 @@ import os
 import re
 import sys
 import jieba
+# ④ 加载金融术语词典
+_jieba_dict_loaded = False
+def _load_financial_dict():
+    global _jieba_dict_loaded
+    if _jieba_dict_loaded:
+        return
+    dict_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "financial_terms.txt")
+    if os.path.exists(dict_path):
+        jieba.load_userdict(dict_path)
+        print(f"  金融词典已加载: {dict_path}")
+    _jieba_dict_loaded = True
+
 import pdfplumber
 from collections import defaultdict
 from typing import List, Dict, Any, Tuple
@@ -24,6 +36,7 @@ class FinancialRetrievalSystem:
         self.tokenized_chunks = [] # 分词后的块内容
         
     def index_documents(self, docs_dir: str, doc_ids: List[str]) -> int:
+        _load_financial_dict()  # ④
         """
         索引多个文档
         docs_dir: 文档目录，如 './data/public_dataset_upload/raw/financial_contracts'

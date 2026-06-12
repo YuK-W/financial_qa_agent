@@ -27,6 +27,34 @@ class MultiStepReasoner:
         self.agent = agent
 
     # ================================================================
+    # ⑦ 多数投票
+    # ================================================================
+    def majority_vote(
+        self, question: str, options: Dict[str, str],
+        evidences: List[Dict], answer_format: str, rounds: int = 3
+    ) -> Dict[str, Any]:
+        """同一问题独立推理N次，取多数答案。"""
+        from collections import Counter
+        answers = []
+        for i in range(rounds):
+            result = self.reason_with_verification(question, options, evidences, answer_format)
+            if result['answer']:
+                answers.append(result['answer'])
+        if not answers:
+            return self._empty_result()
+        # 取多数
+        counter = Counter(answers)
+        winner = counter.most_common(1)[0][0]
+        confidence = counter[winner] / len(answers)
+        return {
+            'answer': winner,
+            'reasoning': f'Majority vote: {dict(counter)}, winner={winner}',
+            'verified': confidence >= 0.67,
+            'confidence': confidence,
+            'rounds': rounds,
+        }
+
+    # ================================================================
     # 三阶段主流程
     # ================================================================
     def reason_with_verification(
